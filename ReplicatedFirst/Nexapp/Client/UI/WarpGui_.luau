@@ -34,7 +34,6 @@ local function Init(self, gui : ScreenGui)
 	self:WaitForSaveDataLoaded()
 	local frame = gui:WaitForChild("Frame")
 	
-	
 	self.homeButtonHandler = self:SetupButtonByName("HomeButton", function()
 		print("Home pressed")
 		teleportToHomeEvent:FireServer()
@@ -52,8 +51,6 @@ local function Init(self, gui : ScreenGui)
 		teleportToShopEvent:FireServer("Brainrot")
 	end)
 end
-
-
 
 --========================
 -- public method
