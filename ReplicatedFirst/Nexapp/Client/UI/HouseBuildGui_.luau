@@ -65,17 +65,6 @@ local function LastMaterial(partName: string): Enum.Material
 	end
 end
 
---[[
-local function LastColorMaterial(self, partName: string): (Color3, Enum.Material)
-	if (self.LastColorMaterial[partName]) then
-		last = self.LastColorMaterial[partName]
-		return last.color, last.material
-	else
-		local colorSelectMenu = ColorSelectMenu.GetInstance()
-		return 	colorSelectMenu:LastColor(), colorSelectMenu:LastMaterial()
-	end
-end
-]]
 
 local function SetColor(self, newcolor: Color3)
 	houseBuilder_.SetColor(newcolor)
