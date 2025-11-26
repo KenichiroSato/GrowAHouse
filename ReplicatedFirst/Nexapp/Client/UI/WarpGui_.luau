@@ -45,6 +45,12 @@ local function Init(self, gui : ScreenGui)
 	self.toyButtonHandler = self:SetupButtonByName("ToyButton", function()
 		teleportToShopEvent:FireServer("Toy")
 	end)
+	self.plantButtonHandler = self:SetupButtonByName("PlantButton", function()
+		teleportToShopEvent:FireServer("Plant")
+	end)
+	self.brainrotButtonHandler = self:SetupButtonByName("BrainrotButton", function()
+		teleportToShopEvent:FireServer("Brainrot")
+	end)
 end
 
 
