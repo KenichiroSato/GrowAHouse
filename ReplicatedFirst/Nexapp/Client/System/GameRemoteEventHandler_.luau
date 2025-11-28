@@ -1,6 +1,7 @@
 local ReplicatedFirst = game:GetService("ReplicatedFirst")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local SystemRemoteEventHandler_ = require(ReplicatedFirst.Nexsys.Client.SystemRemoteEventHandler_)
+local EventManager_ = require(ReplicatedFirst.Nexsys.Client.Event.EventManager_)
 --local PopUpModule_ = require(ReplicatedFirst.Nexapp.Client.System.PopUpModule_)
 --local GameRemoteProcessor_ = require(ReplicatedFirst.Nexapp.Client.System.GameRemoteProcessor_)
 
@@ -10,7 +11,11 @@ local GameRemoteEventHandler_ = {}
 ----------------------------------------------------------------------------------------------------
 -- RemoteEvent、RemoteFunction共通のイベントハンドラ
 local function onCommonEvent(eventType, ...)
-	return SystemRemoteEventHandler_.onCommonEvent(eventType, ...)
+	if eventType == "CutSceneFirstTalk" then
+		EventManager_.StartEvent("Event_FirstTalk")
+	else
+		return SystemRemoteEventHandler_.onCommonEvent(eventType, ...)
+	end
 	-- システムに移行したい検討中
 	--[[
 	if eventType == "RSC_PlayPopUp" then

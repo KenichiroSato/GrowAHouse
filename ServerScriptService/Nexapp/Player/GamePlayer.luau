@@ -22,6 +22,9 @@ local CoinGenerator = require(ServerScriptService.Nexapp.Player.CoinGenerator)
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local SaveDataLoadedEvent = ReplicatedStorage:WaitForChild("BindableEvent"):WaitForChild("SaveDataLoadedEvent")
 
+local function StartFirstTalkCutScene(self, player: Player)
+	self:SendRemoteEvent("CutSceneFirstTalk")
+end
 
 --- @class GamePlayer : BasePlayer
 local GamePlayer = {}
@@ -119,6 +122,8 @@ function GamePlayer:onSaveDataLoaded(saveDataIns)
 	SaveDataLoadedEvent:Fire(player)
 	
 	self.coinGenerator:Start()
+
+	StartFirstTalkCutScene(self, player)
 end
 ----------------------------------------------------------------------------------------------------
 --
