@@ -21,7 +21,6 @@ local CoinGenerator = require(ServerScriptService.Nexapp.Player.CoinGenerator)
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local SaveDataLoadedEvent = ReplicatedStorage:WaitForChild("BindableEvent"):WaitForChild("SaveDataLoadedEvent")
-local remoteEventFolder = ReplicatedStorage:WaitForChild("RemoteEvent")
 
 local function StartFirstTalkCutScene(self, player: Player)
 	self:SendRemoteEvent("CutSceneFirstTalk")
