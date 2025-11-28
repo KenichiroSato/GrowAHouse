@@ -19,6 +19,8 @@ local Types = require(ReplicatedFirst.Nexapp.Common.Types)
 local ServerScriptService = game:GetService("ServerScriptService")
 local LocalCordinateHelper = require(ServerScriptService:WaitForChild("Nexapp"):WaitForChild("House"):WaitForChild("LocalCordinateHelper"))
 local PlayerManager = require(ServerScriptService:WaitForChild("Nexapp"):WaitForChild("Player"):WaitForChild("PlayerManager"))
+local HouseBaseManager = require(ServerScriptService:WaitForChild("Nexapp"):WaitForChild("House"):WaitForChild("HouseBaseManager"))
+local commonMessageEvent = remoteEventFolder:WaitForChild("CommonMessageEvent")
 
 --========================
 -- private method
@@ -66,6 +68,16 @@ local function SpawnItem(player: Player, modelName: string, pivotCFrame: CFrame)
 	return placed
 end
 
+local function IsInTheProperty(player: Player, position: Vector3): boolean
+	local basePart = HouseBaseManager.GetBase(player)
+	local basePosition = basePart.Position
+	local baseSize = basePart.Size
+	return basePosition.X - baseSize.X/2 <= position.X and 
+		basePosition.X + baseSize.X/2 >= position.X and
+		basePosition.Z - baseSize.Z/2 <= position.Z and
+		basePosition.Z + baseSize.Z/2 >= position.Z
+end
+
 
 local function ReloadFurnitures(player: Player)
 	local gamePlayer = PlayerManager.GetGamePlayer(player)
@@ -94,6 +106,12 @@ function ItemManager.bindEvents()
 	end)
 	
 	ItemPlaceEvent.OnServerEvent:Connect(function(player: Player, modelName: string, pivotCFrame: CFrame)
+		local position = pivotCFrame.Position
+		if (not IsInTheProperty(player, position)) then
+			print("not in the property")
+			commonMessageEvent:FireClient(player, STR.STR_OUT_OF_PROPERTY)
+			return
+		end
 		local placedItem = SpawnItem(player, modelName, pivotCFrame)
 		if placedItem then
 			local instanceId = HttpService:GenerateGUID(false)
