@@ -12,7 +12,7 @@ local GameRemoteEventHandler_ = {}
 -- RemoteEvent、RemoteFunction共通のイベントハンドラ
 local function onCommonEvent(eventType, ...)
 	if eventType == "CutSceneFirstTalk" then
-		EventManager_.StartEvent("Event_UnlockWaterZoneTalk")
+		EventManager_.StartEvent("Event_FirstTalk")
 	else
 		return SystemRemoteEventHandler_.onCommonEvent(eventType, ...)
 	end

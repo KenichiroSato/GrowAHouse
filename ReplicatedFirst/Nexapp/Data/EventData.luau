@@ -8,7 +8,7 @@ return {
 		{ EventInstType.TalkSequence, "FirstPetTalk" },
 		{ EventInstType.SendSignal, "OnFirstPetTalkEnd" },
 	},
-	Event_UnlockWaterZoneTalk = {
+	Event_FirstTalk = {
 		{ EventInstType.DisableProximityPrompt },
 		{ EventInstType.LockPlayer },
 		{ EventInstType.TalkSequence, "FirstTalk" },
