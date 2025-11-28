@@ -21,7 +21,18 @@ local CoinGenerator = require(ServerScriptService.Nexapp.Player.CoinGenerator)
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local SaveDataLoadedEvent = ReplicatedStorage:WaitForChild("BindableEvent"):WaitForChild("SaveDataLoadedEvent")
+local remoteEventFolder = ReplicatedStorage:WaitForChild("RemoteEvent")
 
+local function StartCutScene(self, player: Player)
+	-- Play a short property overview cutscene on the client (3 seconds)
+	local success, basePart = pcall(function()
+		local HouseBaseManager = require(ServerScriptService:WaitForChild("Nexapp"):WaitForChild("House"):WaitForChild("HouseBaseManager"))
+		return HouseBaseManager.GetBase(player)
+	end)
+	if success and basePart then
+		self:SendRemoteEvent("CutSceneFirstTalk")
+	end
+end
 
 --- @class GamePlayer : BasePlayer
 local GamePlayer = {}
@@ -119,6 +130,8 @@ function GamePlayer:onSaveDataLoaded(saveDataIns)
 	SaveDataLoadedEvent:Fire(player)
 	
 	self.coinGenerator:Start()
+
+	StartCutScene(self, player)
 end
 ----------------------------------------------------------------------------------------------------
 --
