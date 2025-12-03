@@ -123,7 +123,7 @@ function GamePlayer:onSaveDataLoaded(saveDataIns)
 	
 	self.coinGenerator:Start()
 
-	StartFirstTalkCutScene(self, player)
+	--StartFirstTalkCutScene(self, player)
 end
 ----------------------------------------------------------------------------------------------------
 --

@@ -16,7 +16,7 @@ ColorSelectMenu_.instance = nil
 local Colors = {
 	BrickColor.new("White"),
 	BrickColor.new("Pastel light blue"),
-	BrickColor.new("Pastel orange"),
+	BrickColor.new("Carnation pink"),
 	BrickColor.new("Pastel violet"),
 	BrickColor.new("Pastel green"),
 	BrickColor.new("Pastel yellow"),
