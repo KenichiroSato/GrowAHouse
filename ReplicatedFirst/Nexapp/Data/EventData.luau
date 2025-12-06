@@ -15,6 +15,7 @@ return {
 	Event_FirstTalk = {
 		{ EventInstType.DisableProximityPrompt },
 		{ EventInstType.LockPlayer },
+		{ EventInstType.HideScreenGUI},
 		{ EventInstType.TalkSequence, "FirstTalkWelcome" },
 		{ EventInstType.FadeOut, CAMERA_FADE_DURATION},
 		{ EventInstType.CameraMoveTo, "TalkStartCameraPos", 0 },
@@ -34,6 +35,7 @@ return {
 		{ EventInstType.ResetCamera },
 		{ EventInstType.Wait, CAMERA_FADE_DURATION },
 		{ EventInstType.FadeIn, CAMERA_FADE_DURATION},
+		{ EventInstType.ShowScreenGUI},
 		{ EventInstType.UnlockPlayer },
 		{ EventInstType.EnableProximityPrompt },
 		--{ EventInstType.SendCSRemoteEvent, "OnUnlockWaterZoneTalkEnd" },

@@ -8,6 +8,7 @@ local SystemDataModule_ = require(ReplicatedFirst.Nexsys.Client.SystemDataModule
 local UIManager_ = require(ReplicatedFirst.Nexsys.Client.UIManager_)
 local LocalBasePlayer_ = require(ReplicatedFirst.Nexsys.Client.LocalBasePlayer_)
 local Timer = require(ReplicatedFirst.Nexsys.Common.Timer)
+local GuiSuppressor = require(ReplicatedFirst.Nexsys.Common.GuiSuppressor)
 
 --- @class BaseGui_ : UIBase_
 local BaseGui_ = {}
@@ -95,6 +96,12 @@ function BaseGui_:Init(gui : ScreenGui)
 		warn("ResetOnSpawn is Active", gui.Name)
 	end
 	gui.IgnoreGuiInset = true
+
+	if gui:GetAttribute("AlwaysVisible") then
+		GuiSuppressor.ListenSuppressChange(function(isSuppressed)
+			self:SetEnabled(not isSuppressed)
+		end)
+	end
 end
 ----------------------------------------------------------------------------------------------------
 -- 
