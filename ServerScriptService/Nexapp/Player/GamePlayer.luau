@@ -32,7 +32,6 @@ local function StartFirstTalkCutScene(self, player: Player)
 end
 
 local function CheckToShowInitialTutorial(self)
-	print("CheckToShowInitialTutorial", self.isClientGameStarted,self.playerData:IsSaveDataLoaded() )
 	if self.tutorialStarted then
 		return
 	end

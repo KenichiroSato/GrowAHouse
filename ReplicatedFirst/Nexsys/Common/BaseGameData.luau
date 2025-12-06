@@ -187,7 +187,9 @@ end
 ----------------------------------------------------------------------------------------------------
 --- ListenAttributeChanged
 function BaseGameData:ListenAttributeChanged(key, callback)
-	ReplicatedStorage:GetAttributeChangedSignal(key):Connect(callback)
+	ReplicatedStorage:GetAttributeChangedSignal(key):Connect(function()
+		callback(self:GetAttribute(key))
+	end)
 end
 
 return BaseGameData

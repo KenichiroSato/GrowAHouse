@@ -12,6 +12,7 @@ local ModelUtil = require(ReplicatedFirst.Nexsys.Common.ModelUtil)
 local RemoteSender_ = require(ReplicatedFirst.Nexsys.Client.RemoteSender_)
 local SystemTypes = require(ReplicatedFirst.Nexsys.Common.SystemTypes)
 local GameDataProvider = require(ReplicatedFirst.Nexsys.Common.GameDataProvider.GameDataProvider)
+local GuiSuppressor = require(ReplicatedFirst.Nexsys.Common.GuiSuppressor)
 
 local Event_ = {}
 Event_.__index = Event_
@@ -223,6 +224,10 @@ function Event_:startEventTask(taskIndex)
 		else
 			warn("gameEventHandler_ not found")
 		end
+	elseif eventTaskType == EventInstType.HideScreenGUI then
+		GuiSuppressor.Suppress()
+	elseif eventTaskType == EventInstType.ShowScreenGUI then
+		GuiSuppressor.Unsuppress()
 	end
 	-- elseif eventTaskType == EventInstType.LockPlayers then
 	-- 	-- taskなしで即時命令で終了

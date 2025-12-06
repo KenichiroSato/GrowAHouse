@@ -29,17 +29,12 @@ end
 --========================
 
 local function Init(self, gui : ScreenGui)
-	print("coinGui init")
 	self:WaitForLoaded(gui)
-	self:setGuiEnabled(false)
 	self:WaitForSaveDataLoaded()
 	local frame = gui:WaitForChild("Frame")
 	coinText = frame:WaitForChild("CoinLabel") :: TextLabel
-	
 	perSecText = frame:WaitForChild("PerSecLabel") ::TextLabel
 	
-	SystemDataModule_.WaitUntilLoadingScreenEnded()
-	self:setGuiEnabled(true)
 	self:SetUpdate(true)
 end
 
