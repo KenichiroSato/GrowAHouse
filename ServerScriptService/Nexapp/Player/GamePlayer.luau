@@ -22,14 +22,25 @@ local CoinGenerator = require(ServerScriptService.Nexapp.Player.CoinGenerator)
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local SaveDataLoadedEvent = ReplicatedStorage:WaitForChild("BindableEvent"):WaitForChild("SaveDataLoadedEvent")
 
-local function StartFirstTalkCutScene(self, player: Player)
-	self:SendRemoteEvent("CutSceneFirstTalk")
-end
-
 --- @class GamePlayer : BasePlayer
 local GamePlayer = {}
 GamePlayer.__index = GamePlayer
 setmetatable(GamePlayer, BasePlayer)
+----------------------------------------------------------------------------------------------------
+local function StartFirstTalkCutScene(self, player: Player)
+	self:SendRemoteEvent("CutSceneFirstTalk")
+end
+
+local function CheckToShowInitialTutorial(self)
+	print("CheckToShowInitialTutorial", self.isClientGameStarted,self.playerData:IsSaveDataLoaded() )
+	if self.tutorialStarted then
+		return
+	end
+	if self.isClientGameStarted and self.playerData:IsSaveDataLoaded() then
+		self.tutorialStarted = true
+		StartFirstTalkCutScene(self, self:GetPlayer())
+	end
+end
 ----------------------------------------------------------------------------------------------------
 --
 function GamePlayer.new(player: Player)
@@ -144,12 +155,21 @@ end
 -- Update
 function GamePlayer:Update(dt)
 	BasePlayer.Update(self, dt)
-
+	
+	CheckToShowInitialTutorial(self)
 	-- self:UpdateDebugInfo()
 end
 ----------------------------------------------------------------------------------------------------
 -- OnHeartbeat
 function GamePlayer:OnHeartbeat(dt)
+end
+----------------------------------------------------------------------------------------------------
+-- ローディングスクリーンが開けてClientでゲーム開始した
+function GamePlayer:OnClientGameStarted()
+	print("OnClientGameStarted")
+	self.isClientGameStarted = true
+
+	--self:LogFunnelStepEvent(LogDefine.StartDetailFunnel_A.StartButtonPushed)
 end
 ----------------------------------------------------------------------------------------------------
 -- GetPlayerData

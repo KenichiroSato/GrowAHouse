@@ -67,7 +67,7 @@ end
 function TalkSequencer_:playTalk(talkData)
 	local text = LocalizeModule_.GetLocalizedData(talkData, "Text")
 	local talkTime = self.talkEndTime
-	local isWaitInput = talkData.IsWaitInput or true
+    local isWaitInput = if talkData.IsWaitInput == nil then true else talkData.IsWaitInput
 
 	local talker = self.talker
 	if talkData.TalkerPath then
@@ -92,10 +92,19 @@ function TalkSequencer_:playTalk(talkData)
 		AutoDistanceHide = not talkData.NoDistanceHide,
 	}
 
-	local talkGui = TalkGui_.GetInstance()
+	local talkGui = nil
+	while true do
+		talkGui = TalkGui_.GetInstance()
+		if talkGui == nil then
+			print("TalkGUi nil wait")
+			task.wait(0.5)
+		else
+			break
+		end
+	end
 	if talkGui then
 		talkGui:PlayTalkAsync(talkParam)
-		if isWaitInput then
+		if isWaitInput or talkTime then
 			talkGui:WaitForTalkEnd()
 		end
 	end

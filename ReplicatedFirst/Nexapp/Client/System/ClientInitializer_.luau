@@ -5,7 +5,7 @@ local TeleportService = game:GetService("TeleportService")
 local PlayerData = require(ReplicatedFirst.Nexapp.Common.System.PlayerData)
 local LocalInstanceManager_ = require(ReplicatedFirst.Nexapp.Client.System.LocalInstanceManager_)
 local BGMManager_ = require(ReplicatedFirst.Nexsys.Client.BGMManager_)
-local PreloadController_ = require(ReplicatedFirst.Nexapp.Client.System.PreloadController_)
+local PreloadController_ = require(ReplicatedFirst.Nexsys.Client.PreloadController_)
 --- @class ClientInitializer_ : table
 local ClientInitializer_ = {}
 
@@ -47,7 +47,7 @@ function ClientInitializer_.StartLoadingScreen()
 			useTitleBGM = false
 		else
 			local LoadingGui_ = require(ReplicatedFirst.Nexapp.Client.UI.LoadingGui_)
-			guiHandler = LoadingGui_.GetInstance()
+			guiHandler = LoadingGui_.WaitForInstance()
 		end
 
 		-- ローディング画面をロードしてからデフォルトロード仮面から切替え

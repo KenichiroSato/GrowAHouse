@@ -241,7 +241,7 @@ function TalkGui_:PlayTalkStreamingAsync(talkParam : SystemTypes.TalkParam)
 		end
 	end)
 	
-	if talkParam.IsWaitInput then
+	if talkParam.IsWaitInput or talkParam.TalkTime ~= nil then
 		-- Hideしないで待機
 	else
 		self:Hide()
@@ -260,6 +260,11 @@ function TalkGui_:Resume()
 	if self.yieldCo then
 		coroutine.resume(self.yieldCo)
 	end
+end
+
+-- Resume
+function TalkGui_:OnHide()
+	self.isTalkEnd = true
 end
 
 return TalkGui_

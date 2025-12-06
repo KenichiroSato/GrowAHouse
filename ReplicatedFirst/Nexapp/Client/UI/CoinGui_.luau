@@ -4,6 +4,8 @@ local ReplicatedFirst = game:GetService("ReplicatedFirst")
 local BaseGui_ = require(ReplicatedFirst.Nexsys.Client.BaseGui_)
 local Types = require(ReplicatedFirst.Nexapp.Common.Types)
 local PlayerData = require(ReplicatedFirst.Nexapp.Common.System.PlayerData)
+local SystemDataModule_ = require(ReplicatedFirst.Nexsys.Client.SystemDataModule_)
+
 
 --- @class ShopGui_ : BaseGui_
 local CoinGui_ = {}
@@ -29,17 +31,17 @@ end
 local function Init(self, gui : ScreenGui)
 	print("coinGui init")
 	self:WaitForLoaded(gui)
+	self:setGuiEnabled(false)
 	self:WaitForSaveDataLoaded()
 	local frame = gui:WaitForChild("Frame")
 	coinText = frame:WaitForChild("CoinLabel") :: TextLabel
 	
 	perSecText = frame:WaitForChild("PerSecLabel") ::TextLabel
 	
+	SystemDataModule_.WaitUntilLoadingScreenEnded()
+	self:setGuiEnabled(true)
 	self:SetUpdate(true)
-	self:SetShowHide(true)
 end
-
-
 
 --========================
 -- public method

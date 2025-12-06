@@ -29,7 +29,6 @@ end
 --========================
 
 local function Init(self, gui : ScreenGui)
-	print("coinGui init")
 	self:WaitForLoaded(gui)
 	self:WaitForSaveDataLoaded()
 	local frame = gui:WaitForChild("Frame")

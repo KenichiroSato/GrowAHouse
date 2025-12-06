@@ -24,6 +24,8 @@ ShopItemClient_.Start()
 CommonMessageHandler_.Start()
 ----------------------------------------------------------------------------------------------------
 -- ローディング画面終了後処理
---SystemDataModule_.WaitUntilLoadingScreenEnded()
+SystemDataModule_.WaitUntilLoadingScreenEnded()
+RemoteSender_.SendEvent("OnClientGameStarted")
+
 -- BGM開始
 --BGMManager_.Init("Land", true)

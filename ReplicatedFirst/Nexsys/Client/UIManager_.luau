@@ -224,7 +224,7 @@ function UIManager_.StartScreenFadeOutSync(fadeTime, isWhite: boolean?)
 	end
 
 	fadeGui.Frame.BackgroundTransparency = 1
-	fadeGui.Frame.BackgroundColor3 = isWhite and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(0, 0, 0)
+	--fadeGui.Frame.BackgroundColor3 = isWhite and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(0, 0, 0)
 	UIManager_.FadeInGuiSync(fadeGui, fadeTime)
 end
 ----------------------------------------------------------------------------------------------------
@@ -241,7 +241,7 @@ function UIManager_.StartScreenFadeIn(fadeTime, isWhite: boolean?)
 	end
 
 	fadeGui.Frame.BackgroundTransparency = 0
-	fadeGui.Frame.BackgroundColor3 = isWhite and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(0, 0, 0)
+	--fadeGui.Frame.BackgroundColor3 = isWhite and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(0, 0, 0)
 	UIManager_.FadeOutDisableGui(fadeGui, fadeTime)
 end
 ----------------------------------------------------------------------

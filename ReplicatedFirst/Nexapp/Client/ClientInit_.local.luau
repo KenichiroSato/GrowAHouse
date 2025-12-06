@@ -23,8 +23,7 @@ end
 UIManager_.Init()
 ClientInitializer_.StartInit()
 
--- ClientInitializer_.StartLoadingScreen()
-SystemDataModule_.OnLoadingScreenEnded()
+ClientInitializer_.StartLoadingScreen()
 
 BaseGui_.SetDefaultZoomShowHide(true)
 

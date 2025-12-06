@@ -22,7 +22,6 @@ function MaterialSelectMenu_.GetInstance() : Types.MaterialSelectMenu
 end
 
 local function Init(self, gui : ScreenGui)
-	print("coinGui init")
 	self:WaitForLoaded(gui)
 	self:WaitForSaveDataLoaded()
 	self:SetFlyInShowHide(false)
