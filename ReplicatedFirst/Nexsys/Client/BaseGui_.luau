@@ -99,9 +99,10 @@ function BaseGui_:Init(gui : ScreenGui)
 
 	if gui:GetAttribute("AlwaysVisible") then
 		task.spawn(function()
+			local guiEnabled = gui.Enabled
 			self:setGuiEnabled(false)
 			SystemDataModule_.WaitUntilLoadingScreenEnded()
-			self:setGuiEnabled(gui.Enabled)
+			self:setGuiEnabled(guiEnabled)
 		end)
 		GuiSuppressor.ListenSuppressChange(function(isSuppressed)
 			self:SetEnabled(not isSuppressed)

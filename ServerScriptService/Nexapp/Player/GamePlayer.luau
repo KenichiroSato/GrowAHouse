@@ -155,7 +155,7 @@ end
 function GamePlayer:Update(dt)
 	BasePlayer.Update(self, dt)
 	
-	CheckToShowInitialTutorial(self)
+	--CheckToShowInitialTutorial(self)
 	-- self:UpdateDebugInfo()
 end
 ----------------------------------------------------------------------------------------------------

@@ -44,7 +44,13 @@ end
 
 local function updateTarget(deletePosition: Vector2)
 	if not camera then return end
-	local ray = camera:ScreenPointToRay(deletePosition.x, deletePosition.y)
+	local ray: Ray
+	if UserInputService.GamepadEnabled then
+		ray = camera:ScreenPointToRay(deletePosition.x, deletePosition.y)
+	elseif UserInputService.MouseEnabled then
+		screenPos = UserInputService:GetMouseLocation()
+		ray = camera:ViewportPointToRay(screenPos.x, screenPos.y)
+	end
 	local target = ScreenRayExecutor.FindPlayerOwnedInstance(player, ray, camera)
 	if target then
 		if target ~= lastTarget then
@@ -64,12 +70,20 @@ end
 function HouseEditor_.StartDeleteMode(gamePadDeletePosition: Vector2)
 	print("startDeleteMode")
 	if connection ~= nil then return end
-	connection = RunService.RenderStepped:Connect(function(dt)
-		updateTarget(gamePadDeletePosition)
-	end)
+	if UserInputService.GamepadEnabled or UserInputService.MouseEnabled then
+		connection = RunService.RenderStepped:Connect(function(dt)
+			updateTarget(gamePadDeletePosition)
+		end)
+	end
 	
 	singleTapDetector:Start(function(input)
-		fireRayFromScreen(gamePadDeletePosition.X, gamePadDeletePosition.Y)
+		if (input.UserInputType == Enum.UserInputType.Gamepad1) then
+			print("gamepad input")
+			fireRayFromScreen(gamePadDeletePosition.X, gamePadDeletePosition.Y)
+		else
+			fireRayFromScreen(input.Position.X, input.Position.Y)
+		end
+		--fireRayFromScreen(gamePadDeletePosition.X, gamePadDeletePosition.Y)
 	end)
 end
 
