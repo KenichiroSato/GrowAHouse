@@ -8,6 +8,7 @@ local Types = require(ReplicatedFirst.Nexapp.Common.Types)
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local remoteEventFolder = ReplicatedStorage:WaitForChild("RemoteEvent")
 local deleteEvent = remoteEventFolder:WaitForChild("HouseDeleteEvent")
+local ItemMoveEvent = remoteEventFolder:WaitForChild("ItemMoveEvent") :: RemoteEvent
 local STR = require(ReplicatedStorage:WaitForChild("Script"):WaitForChild("Strings"))
 local ScreenRayExecutor = require(ReplicatedStorage:WaitForChild("Script"):WaitForChild("ScreenRayExecutor"))
 
@@ -20,7 +21,7 @@ ObjectRemover.__index = ObjectRemover
 
 
 function ObjectRemover.bindEvents()
-	deleteEvent.OnServerEvent:Connect(function(player, ray: Ray)
+	deleteEvent.OnServerEvent:Connect(function(player, ray: Ray, isMove: boolean)
 		local deletable = ScreenRayExecutor.FindPlayerOwnedInstance(player, ray)
 		if not deletable then return end
 		
@@ -33,8 +34,10 @@ function ObjectRemover.bindEvents()
 			--家具の場合はアイテムリストに戻す
 			gamePlayer:AddPurchasedItem(deletable.Name)
 			gamePlayer:RemoveFurniture(deletable:GetAttribute(STR.InstanceId))
+			if isMove then
+				ItemMoveEvent:FireClient(player, deletable.Name)
+			end
 		end
-
 		deletable:Destroy()
 	end)
 end

@@ -9,7 +9,6 @@ local ReplicatedFirst = game:GetService("ReplicatedFirst")
 local SysTypes = require(ReplicatedFirst.Nexsys.Common.Types)
 local SingleTapDetector_: SysTypes.SingleTapDetector_ = require(ReplicatedFirst.Nexsys.Client.SingleTapDetector_)
 local ScreenRayExecutor = require(ReplicatedStorage:WaitForChild("Script"):WaitForChild("ScreenRayExecutor"))
-
 local player = Players.LocalPlayer
 local camera = workspace.CurrentCamera
 local deleteRequestEvent = ReplicatedStorage:WaitForChild("RemoteEvent"):WaitForChild("HouseDeleteEvent")
@@ -31,6 +30,7 @@ selectionBox.Parent = workspace
 local lastTarget: Instance? = nil
 local connection: RBXScriptConnection?
 
+local isMoveMode = true
 --------------------------------------
 --       private method
 --------------------------------------
@@ -39,7 +39,7 @@ local function fireRayFromScreen(x, y)
 	lastFire = time()
 
 	local ray = camera:ScreenPointToRay(x, y)
-	deleteRequestEvent:FireServer(ray)
+	deleteRequestEvent:FireServer(ray, isMoveMode)
 end
 
 local function updateTarget(deletePosition: Vector2)
@@ -67,9 +67,14 @@ end
 --------------------------------------
 --       public method
 --------------------------------------
-function HouseEditor_.StartDeleteMode(gamePadDeletePosition: Vector2)
-	print("startDeleteMode")
+function HouseEditor_.SetMoveMode(isMove: boolean)
+	isMoveMode = isMove
+end
+
+function HouseEditor_.StartEditMode(gamePadDeletePosition: Vector2, caller)
+	print("StartEditMode")
 	if connection ~= nil then return end
+	
 	if UserInputService.GamepadEnabled or UserInputService.MouseEnabled then
 		connection = RunService.RenderStepped:Connect(function(dt)
 			updateTarget(gamePadDeletePosition)
@@ -83,11 +88,16 @@ function HouseEditor_.StartDeleteMode(gamePadDeletePosition: Vector2)
 		else
 			fireRayFromScreen(input.Position.X, input.Position.Y)
 		end
-		--fireRayFromScreen(gamePadDeletePosition.X, gamePadDeletePosition.Y)
+		if isMoveMode then
+			if caller and type(caller.SetShowHide) == "function" then
+				caller:SetShowHide(false)
+			end	
+			HouseEditor_.StopEditMode()
+		end
 	end)
 end
 
-function HouseEditor_.StopDeleteMode() 
+function HouseEditor_.StopEditMode() 
 	singleTapDetector:Stop()
 	selectionBox.Visible = false
 	lastTarget = nil

@@ -31,12 +31,15 @@ local function OnMoveButtonPressed(self)
 	self.moveButton.BackgroundTransparency = SELECTED_TRANSPARENCY
 	self.putAwayButtonStroke.Thickness = UNSELECTED_THICKNESS
 	self.putAwayButton.BackgroundTransparency = UNSELECTED_TRANSPARENCY
+	houseEditor.SetMoveMode(true)
 end
+
 local function OnPutAwayButtonPressed(self)
 	self.moveButtonStroke.Thickness = UNSELECTED_THICKNESS
 	self.moveButton.BackgroundTransparency = UNSELECTED_TRANSPARENCY
 	self.putAwayButton.BackgroundTransparency = SELECTED_TRANSPARENCY
 	self.putAwayButtonStroke.Thickness = SELECTED_THICKNESS
+	houseEditor.SetMoveMode(false)
 end
 
 local function Init(self, gui : ScreenGui)
@@ -75,11 +78,11 @@ end
 
 function EditGui_:OnShow()
 	local crossHairCenter: Vector2 = self.crossHair.AbsolutePosition + self.crossHair.AbsoluteSize/2
-	houseEditor.StartDeleteMode(crossHairCenter)
+	houseEditor.StartEditMode(crossHairCenter, self)
 end
 
 function EditGui_:OnHide()
-	houseEditor.StopDeleteMode()
+	houseEditor.StopEditMode()
 end
 
 return EditGui_

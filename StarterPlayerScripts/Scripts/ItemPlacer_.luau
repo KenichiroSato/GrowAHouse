@@ -12,6 +12,7 @@ local Camera = Workspace.CurrentCamera :: Camera
 
 local remoteEventFolder = ReplicatedStorage:WaitForChild("RemoteEvent")
 local ItemPlaceEvent = remoteEventFolder:WaitForChild("ItemPlaceEvent") :: RemoteEvent
+local ItemMoveEvent = ReplicatedStorage:WaitForChild("RemoteEvent"):WaitForChild("ItemMoveEvent") :: RemoteEvent
 
 local ReplicatedFirst = game:GetService("ReplicatedFirst")
 local SysTypes = require(ReplicatedFirst.Nexsys.Common.Types)
@@ -205,4 +206,7 @@ CancelButton.Activated:Connect(function()
 	ItemPlacer_.Cancel()
 end)
 
+ItemMoveEvent.OnClientEvent:Connect(function(modelName: string)
+	ItemPlacer_.Start(modelName)
+end)
 return ItemPlacer_
