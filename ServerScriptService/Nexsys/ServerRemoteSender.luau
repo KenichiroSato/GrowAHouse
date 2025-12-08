@@ -6,6 +6,10 @@ function ServerRemoteSender.SendEvent(player : Player, eventType, ...)
 	ReplicatedStorage.RemoteEvent.CommonRemoteEvent:FireClient(player, eventType, ...)
 end
 
+function ServerRemoteSender.SendAnnounce(player : Player, ...)
+	ReplicatedStorage.RemoteEvent.CommonRemoteEvent:FireClient(player, "RSC_Announce", ...)
+end
+
 function ServerRemoteSender.SendEventToAll(eventType, ...)
 	ReplicatedStorage.RemoteEvent.CommonRemoteEvent:FireAllClients(eventType, ...)
 end

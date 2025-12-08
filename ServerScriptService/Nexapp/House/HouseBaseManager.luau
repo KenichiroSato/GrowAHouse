@@ -3,6 +3,7 @@
 
 local Rep = game:GetService("ReplicatedStorage")
 local teleportToHomeEvent = Rep.RemoteEvent.TeleportToHomeEvent
+local getHouseBaseFunction = Rep.RemoteEvent.GetHouseBaseFunction
 local Players = game:GetService("Players")
 
 local HouseBaseManager = {}
@@ -71,11 +72,18 @@ function HouseBaseManager.GetBase(player: Player): BasePart
 	return assignedBases[player].PrimaryPart :: BasePart
 end
 
+local function GetHouseAreaVolume(player: Player): BasePart
+	local part = assignedBases[player]:WaitForChild("HouseAreaVolume") :: BasePart
+	return part
+end
+
 -- プレイヤー退室時に自動解放
 Players.PlayerRemoving:Connect(function(player)
 	HouseBaseManager.Release(player)
 end)
 
 teleportToHomeEvent.OnServerEvent:Connect(TeleportToHouse)
+
+getHouseBaseFunction.OnServerInvoke = GetHouseAreaVolume
 
 return HouseBaseManager

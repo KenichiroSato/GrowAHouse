@@ -20,7 +20,7 @@ local ServerScriptService = game:GetService("ServerScriptService")
 local LocalCordinateHelper = require(ServerScriptService:WaitForChild("Nexapp"):WaitForChild("House"):WaitForChild("LocalCordinateHelper"))
 local PlayerManager = require(ServerScriptService:WaitForChild("Nexapp"):WaitForChild("Player"):WaitForChild("PlayerManager"))
 local HouseBaseManager = require(ServerScriptService:WaitForChild("Nexapp"):WaitForChild("House"):WaitForChild("HouseBaseManager"))
-local commonMessageEvent = remoteEventFolder:WaitForChild("CommonMessageEvent")
+local ServerRemoteSender = require(ServerScriptService.Nexsys.ServerRemoteSender)
 
 --========================
 -- private method
@@ -109,7 +109,7 @@ function ItemManager.bindEvents()
 		local position = pivotCFrame.Position
 		if (not IsInTheProperty(player, position)) then
 			print("not in the property")
-			commonMessageEvent:FireClient(player, STR.STR_OUT_OF_PROPERTY)
+			ServerRemoteSender.SendAnnounce(player, "OutOfProperty")
 			return
 		end
 		local placedItem = SpawnItem(player, modelName, pivotCFrame)

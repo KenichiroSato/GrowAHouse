@@ -6,6 +6,10 @@ local BuildGui_ = require(ReplicatedFirst.Nexapp.Client.UI.HouseBuildGui_)
 local EditGui_ = require(ReplicatedFirst.Nexapp.Client.UI.EditGui_)
 local ItemsGui_ = require(ReplicatedFirst.Nexapp.Client.UI.ItemsGui_)
 
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local getHouseBaseFunction = ReplicatedStorage.RemoteEvent.GetHouseBaseFunction
+local zoneplus = require(ReplicatedStorage.Packages.zoneplus)
+
 --- @class ShopGui_ : BaseGui_
 local MainMenuGui_ = {}
 MainMenuGui_.__index = MainMenuGui_
@@ -61,6 +65,15 @@ local function Init(self, gui : ScreenGui)
 	end)
 	self.editButtonHandler = self:SetupButtonByName("EditButton", function()
 		OnEditButtonPressed(self)
+	end)
+	
+	local houseBase = getHouseBaseFunction:InvokeServer(game.Players.LocalPlayer)
+	self.zone = zoneplus.new(houseBase)
+	self.zone.localPlayerEntered:Connect(function(player)
+		self:SetEnabled(true)
+	end)
+	self.zone.playerExited:Connect(function(player)
+		self:SetEnabled(false)
 	end)
 end
 

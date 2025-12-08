@@ -5,6 +5,7 @@ local HttpService = game:GetService("HttpService")
 
 local ServerScriptService = game:GetService("ServerScriptService")
 local HouseBaseManager = require(ServerScriptService.Nexapp.House.HouseBaseManager)
+local ServerRemoteSender = require(ServerScriptService.Nexsys.ServerRemoteSender)
 
 local ReplicatedFirst = game:GetService("ReplicatedFirst")
 local Types = require(ReplicatedFirst.Nexapp.Common.Types)
@@ -18,7 +19,6 @@ local remoteEventFolder = ReplicatedStorage:WaitForChild("RemoteEvent")
 local STR = require(ReplicatedStorage:WaitForChild("Script"):WaitForChild("Strings"))
 local placeEvent = remoteEventFolder:WaitForChild("HousePlaceEvent")
 local MaterialConverter = require(ReplicatedStorage.Script.MaterialConverter)
-local commonMessageEvent = remoteEventFolder:WaitForChild("CommonMessageEvent")
 
 local PlayerManager: Types.PlayerManager = require(ServerScriptService:WaitForChild("Nexapp"):WaitForChild("Player"):WaitForChild("PlayerManager"))
 local LocalCordinateHelper = require(ServerScriptService:WaitForChild("Nexapp"):WaitForChild("House"):WaitForChild("LocalCordinateHelper"))
@@ -115,7 +115,7 @@ function HouseBuilder.bindEvents()
 		if typeof(position) == "Vector3" and typeof(yawRadian) == "number" then
 			if (not IsInTheProperty(player, position)) then
 				print("not in the property")
-				commonMessageEvent:FireClient(player, STR.STR_OUT_OF_PROPERTY)
+				ServerRemoteSender.SendAnnounce(player, "OutOfProperty")
 				return
 			end
 			
