@@ -26,12 +26,12 @@ export type PlayerData = {
 	GetCoin: (self: PlayerData) -> number,
 	SetCoin: (self: PlayerData, val: number) -> (),
 	GetCoinText: (self: PlayerData) -> string,
-	SetBuildingParts: (self: PlayerData, parts: Types.BuildingPartArray) -> (),
-	GetBuildingParts: (self: PlayerData) -> Types.BuildingPartArray,
+	SetBuildingParts: (self: PlayerData, parts: BuildingPartArray) -> (),
+	GetBuildingParts: (self: PlayerData) -> BuildingPartArray,
 	ResetBuildingParts: (self: PlayerData) -> (),
 	RemoveBuildingPart: (self: PlayerData, instanceId: string) -> boolean,
-	SetFurnitures: (self: PlayerData, parts: Types.HousePartArray) -> (),
-	GetFurnitures: (self: PlayerData) -> Types.HousePartArray,
+	SetFurnitures: (self: PlayerData, parts: HousePartArray) -> (),
+	GetFurnitures: (self: PlayerData) -> HousePartArray,
 	ResetFurnitures: (self: PlayerData) -> (),
 	UpdateCoinPerSec: (self: PlayerData) -> number,
 	GetCoinPerSec: (self: PlayerData) -> number,
@@ -69,11 +69,11 @@ export type GamePlayer = {
 	GetCoin: (self: GamePlayer) -> number,
 	SubCoin: (self: GamePlayer, val: number) -> boolean,
 	
-	GetBuildingParts:(self: GamePlayer) -> Types.BuildingPartArray,
-	AddBuildingPart:(self: GamePlayer, part: Types.BuildingPart) -> (),
+	GetBuildingParts:(self: GamePlayer) -> BuildingPartArray,
+	AddBuildingPart:(self: GamePlayer, part: BuildingPart) -> (),
 	RemoveBuildingPart: (self: GamePlayer, instanceId: string) -> (),
-	AddFurniture: (self: GamePlayer, part: Types.HousePart) -> (),
-	GetFurnitures:(self: GamePlayer) -> Types.HousePartArray,
+	AddFurniture: (self: GamePlayer, part: HousePart) -> (),
+	GetFurnitures:(self: GamePlayer) -> HousePartArray,
 	RemoveFurniture: (self: GamePlayer, instanceId: string) -> (),
 	
 	GetPurchasedItems:(self:GamePlayer) -> {[string]: number},
@@ -118,20 +118,20 @@ export type RelativeCoordinates = {
 export type HousePart = {
 	Id: string,
 	ModelName: string,
-	Rel: Types.RelativeCorrdinates,
+	Rel: RelativeCoordinates,
 }
 
-export type HousePartArray = { Types.HousePart }
+export type HousePartArray = { HousePart }
 
 export type BuildingPart = {
-	HousePart: Types.HousePart,
+	HousePart: HousePart,
 	ColorR: number,
 	ColorG: number,
 	ColorB: number,
 	Material: string,
 }
 
-export type BuildingPartArray = { Types.BuildingPart }
+export type BuildingPartArray = { BuildingPart }
 
 export type PopUpParam = {
 	Color : Color3,
