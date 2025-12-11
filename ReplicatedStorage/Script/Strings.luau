@@ -13,7 +13,4 @@ Strings.TAG_IgnoreColor = "IgnoreColor"
 
 
 ----------UI 文言
-
-Strings.STR_OUT_OF_PROPERTY = "This is outside your property."
-
 return Strings

@@ -15,6 +15,7 @@ local SaveDataLoadedEvent = ReplicatedStorage:WaitForChild("BindableEvent"):Wait
 
 local ReplicatedFirst = game:GetService("ReplicatedFirst")
 local Types = require(ReplicatedFirst.Nexapp.Common.Types)
+local Define = require(ReplicatedFirst.Nexapp.Common.Define)
 
 local ServerScriptService = game:GetService("ServerScriptService")
 local LocalCordinateHelper = require(ServerScriptService:WaitForChild("Nexapp"):WaitForChild("House"):WaitForChild("LocalCordinateHelper"))
@@ -78,6 +79,15 @@ local function IsInTheProperty(player: Player, position: Vector3): boolean
 		basePosition.Z + baseSize.Z/2 >= position.Z
 end
 
+local function CanPlaceMore(player: Player): boolean
+	local gamePlayer = PlayerManager.GetGamePlayer(player)
+	if not gamePlayer then
+		return false
+	end
+	local placedCount = gamePlayer:GetPlayerData():GetPlacedItemNum()
+	return placedCount < Define.MAX_PLACED_ITEMS_NUM
+end
+
 
 local function ReloadFurnitures(player: Player)
 	local gamePlayer = PlayerManager.GetGamePlayer(player)
@@ -106,6 +116,13 @@ function ItemManager.bindEvents()
 	end)
 	
 	ItemPlaceEvent.OnServerEvent:Connect(function(player: Player, modelName: string, pivotCFrame: CFrame)
+		
+		-- Check if player can place more items
+		if not CanPlaceMore(player) then
+			ServerRemoteSender.SendAnnounce(player, "CantPutAnymore")
+			return
+		end
+		
 		local position = pivotCFrame.Position
 		if (not IsInTheProperty(player, position)) then
 			print("not in the property")
