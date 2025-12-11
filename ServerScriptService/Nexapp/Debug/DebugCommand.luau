@@ -7,6 +7,7 @@ local PlayerManager = require(ServerScriptService.Nexapp.Player.PlayerManager)
 local PlayerSaveDataModule = require(ServerScriptService.Nexsys.Player.PlayerSaveDataModule)
 local OrderedSaveDataManager = require(ServerScriptService.Nexsys.OrderedSaveDataManager)
 local SystemDebugCommand = require(ServerScriptService.Nexsys.Debug.SystemDebugCommand)
+local ProgressFlagData = require(ReplicatedFirst.Nexapp.Data.ProgressFlagData)
 
 --- @class DebugCommand : table
 local DebugCommand = {}
@@ -74,6 +75,13 @@ function DebugCommand.Process(player: Player, message: string, _recipient)
 		elseif command == "dev" or command == "devmode" then
 			gp.playerData:SetDevMode(not gp.playerData:IsDevMode())
 			warn("DebugCommand: set devmode", gp.playerData:IsDevMode())
+		elseif command == "rt" or command == "resettutorial" then
+			local flagName = args[3] and "Flag_".. args[3] or ""
+			if flagName == "" or flagName == "Flag_all" then
+				gp.playerData:ResetProgressFlag(ProgressFlagData.Flag_FirstTalkEnd)
+			else
+				gp.playerData:ResetProgressFlag(flagName)
+			end
 		end
 		
 		-- システム系

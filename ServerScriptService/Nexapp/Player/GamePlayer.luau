@@ -11,6 +11,7 @@ local GameUtil = require(ReplicatedFirst.Nexapp.Common.System.GameUtil)
 local ComponentManager = require(ReplicatedFirst.Nexapp.Common.System.ComponentManager)
 local ConfigData = require(ReplicatedFirst.Exdata.ConfigData)
 local Types = require(ReplicatedFirst.Nexapp.Common.Types)
+local ProgressFlagData = require(ReplicatedFirst.Nexapp.Data.ProgressFlagData)
 
 local ServerScriptService = game:GetService("ServerScriptService")
 local BasePlayer = require(ServerScriptService.Nexsys.Player.BasePlayer)
@@ -27,17 +28,16 @@ local GamePlayer = {}
 GamePlayer.__index = GamePlayer
 setmetatable(GamePlayer, BasePlayer)
 ----------------------------------------------------------------------------------------------------
-local function StartFirstTalkCutScene(self, player: Player)
-	self:SendRemoteEvent("CutSceneFirstTalk")
-end
-
 local function CheckToShowInitialTutorial(self)
-	if self.tutorialStarted then
+	if self.isInitialTutorialChecked then
 		return
 	end
 	if self.isClientGameStarted and self.playerData:IsSaveDataLoaded() then
-		self.tutorialStarted = true
-		StartFirstTalkCutScene(self, self:GetPlayer())
+		self.isInitialTutorialChecked = true
+		if self.playerData:IsProgressFlag(ProgressFlagData.Flag_FirstTalkEnd) then
+			return
+		end
+		self:SendRemoteEvent("CutSceneFirstTalk")
 	end
 end
 ----------------------------------------------------------------------------------------------------
@@ -155,7 +155,7 @@ end
 function GamePlayer:Update(dt)
 	BasePlayer.Update(self, dt)
 	
-	--CheckToShowInitialTutorial(self)
+	CheckToShowInitialTutorial(self)
 	-- self:UpdateDebugInfo()
 end
 ----------------------------------------------------------------------------------------------------
@@ -174,6 +174,12 @@ end
 -- GetPlayerData
 function GamePlayer:GetPlayerData()
 	return self.playerData
+end
+
+function GamePlayer:OnFirstTalkEnd()
+	print("OnFirstTalkEnd")
+
+	self.playerData:SetProgressFlag(ProgressFlagData.Flag_FirstTalkEnd)
 end
 
 ----------------------------------------------------------------------------------------------------

@@ -9,6 +9,7 @@ data.Keys = {
 	LastLoginTime = "LastLoginTime",
 	StayBonusClaimedList = "StayBonusClaimedList",
 	Coin = "Coin",
+	ProgressFlags = "ProgressFlags",
 	LoginBonusGotDay = "LoginBonusGotDay",
 	LastLoginBonusTime = "LastLoginBonusTime",
 }
@@ -50,6 +51,9 @@ data.Template = {
 		-- [Level] = true,
 	},
 	[data.Keys.Coin] = 0,
+	[data.Keys.ProgressFlags] = {
+		-- [FlagKey] = true,
+	},
 	[data.Keys.LoginBonusGotDay] = 0,
 	[data.Keys.LastLoginBonusTime] = 0,
 

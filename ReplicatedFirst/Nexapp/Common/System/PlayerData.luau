@@ -331,6 +331,18 @@ end
 function PlayerData:ResetPurchasedItem()
 	self:SetSaveDataKey(PlayerSaveTable.Keys.PurchasedItems, {})
 end
+----------------------------------------------------------------------------------------------------
+function PlayerData:SetProgressFlag(flagKey)
+	self:SetSaveDataKey2(PlayerSaveTable.Keys.ProgressFlags, flagKey, true)
+end
+
+function PlayerData:ResetProgressFlag(flagKey)
+	self:SetSaveDataKey2(PlayerSaveTable.Keys.ProgressFlags, flagKey, nil)
+end
+
+function PlayerData:IsProgressFlag(flagKey)
+	return self:GetSaveDataKey2(PlayerSaveTable.Keys.ProgressFlags, flagKey)
+end
 
 ----------------------------------------------------------------------------------------------------
 -- GetLoginBonusDays

@@ -38,6 +38,6 @@ return {
 		{ EventInstType.ShowScreenGUI},
 		{ EventInstType.UnlockPlayer },
 		{ EventInstType.EnableProximityPrompt },
-		--{ EventInstType.SendCSRemoteEvent, "OnUnlockWaterZoneTalkEnd" },
+		{ EventInstType.SendCSRemoteEvent, "OnFirstTalkEnd" },
 	},
 }
