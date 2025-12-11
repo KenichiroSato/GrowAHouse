@@ -33,7 +33,7 @@ export type PlayerData = {
 	SetFurnitures: (self: PlayerData, parts: HousePartArray) -> (),
 	GetFurnitures: (self: PlayerData) -> HousePartArray,
 	ResetFurnitures: (self: PlayerData) -> (),
-	GetPlacesItemNum: (self: PlayerData) -> number,
+	GetPlacedItemNum: (self: PlayerData) -> number,
 	UpdateCoinPerSec: (self: PlayerData) -> number,
 	GetCoinPerSec: (self: PlayerData) -> number,
 	RemoveFurniture: (self: PlayerData, instanceId: string) -> boolean,

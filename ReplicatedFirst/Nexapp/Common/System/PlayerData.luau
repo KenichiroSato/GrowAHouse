@@ -206,7 +206,7 @@ function PlayerData:ResetFurnitures()
 	self:SetFurnitures({})
 end
 
-function PlayerData:GetPlacesItemNum(): number
+function PlayerData:GetPlacedItemNum(): number
 	local buildingParts = self:GetBuildingParts() or {}
 	local furnitures = self:GetFurnitures() or {}
 	return #buildingParts + #furnitures

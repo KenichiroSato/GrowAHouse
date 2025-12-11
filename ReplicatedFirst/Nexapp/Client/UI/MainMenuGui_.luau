@@ -95,7 +95,7 @@ function MainMenuGui_.new(...)
 end
 
 function MainMenuGui_:onUpdate(dt: number)
-	local num = PlayerData:GetPlacesItemNum()
+	local num = PlayerData:GetPlacedItemNum()
 	self.placedItemsText.Text = TextUtil.ReplaceNumbersText(self.placedItemsTextOriginal, {num, Define.MAX_PLACED_ITEMS_NUM})
 end
 
