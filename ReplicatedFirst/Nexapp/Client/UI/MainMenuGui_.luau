@@ -2,6 +2,7 @@
 local ReplicatedFirst = game:GetService("ReplicatedFirst")
 local BaseGui_ = require(ReplicatedFirst.Nexsys.Client.BaseGui_)
 local Define = require(ReplicatedFirst.Nexapp.Common.Define)
+local PointingUIElem_ = require(ReplicatedFirst.Nexsys.Client.UI.UIElem.PointingUIElem_)
 
 local BuildGui_ = require(ReplicatedFirst.Nexapp.Client.UI.HouseBuildGui_)
 local EditGui_ = require(ReplicatedFirst.Nexapp.Client.UI.EditGui_)
@@ -34,13 +35,13 @@ end
 
 
 local function OnBuildButtonPressed(self)
-	print("OnBuildBUttonPressed")
+	self.IndicatorArrowBuildHandler:SetActive(false)
 	local buildGui_ = BuildGui_.GetInstance()
 	buildGui_:ToggleShowHide()
 end
 
 local function OnItemsButtonPressed(self)
-	print("OnItemsButtonPressed")
+	self.IndicatorArrowItemsHandler:SetActive(false)
 	local ItemsGui_ = ItemsGui_.GetInstance()
 	ItemsGui_:ToggleShowHide()
 end
@@ -72,14 +73,22 @@ local function Init(self, gui : ScreenGui)
 	local houseBase = getHouseBaseFunction:InvokeServer(game.Players.LocalPlayer)
 	self.zone = zoneplus.new(houseBase)
 	self.zone.localPlayerEntered:Connect(function(player)
-		self:SetEnabled(true)
+		self:SetShowHide(true)
 	end)
 	self.zone.playerExited:Connect(function(player)
-		self:SetEnabled(false)
+		self:SetShowHide(false)
+		BuildGui_.GetInstance():SetShowHide(false)
+		ItemsGui_.GetInstance():SetShowHide(false)
+		EditGui_.GetInstance():SetShowHide(false)
 	end)
 	
 	self.placedItemsText = gui:FindFirstChild("PlacedItemsLabel", true) :: TextLabel
 	self.placedItemsTextOriginal = self.placedItemsText.Text
+	
+	local indicatorArrowBuild = gui:FindFirstChild("IndicatorArrowBuild", true) :: GuiObject
+	self.IndicatorArrowBuildHandler = PointingUIElem_.new(indicatorArrowBuild, UDim2.fromScale(0, 0.04))
+	local indicatorArrowItems = gui:FindFirstChild("IndicatorArrowItems", true) :: GuiObject
+	self.IndicatorArrowItemsHandler = PointingUIElem_.new(indicatorArrowItems, UDim2.fromScale(0, 0.04))
 	
 	self:SetUpdate(true)
 end
@@ -92,6 +101,11 @@ function MainMenuGui_.new(...)
 	Init(self, ...)
 	MainMenuGui_.instance = self
 	return self
+end
+
+function MainMenuGui_:OnShow()
+	self.IndicatorArrowBuildHandler:SetActive(true)
+	self.IndicatorArrowItemsHandler:SetActive(true)
 end
 
 function MainMenuGui_:onUpdate(dt: number)
