@@ -77,6 +77,15 @@ local function IsInTheProperty(player: Player, position: Vector3): boolean
 		basePosition.Z + baseSize.Z/2 >= position.Z
 end
 
+local function CanPlaceMore(player: Player): boolean
+	local gamePlayer = PlayerManager.GetGamePlayer(player)
+	if not gamePlayer then
+		return false
+	end
+	local placedCount = gamePlayer:GetPlayerData():GetPlacedItemNum()
+	return placedCount < Define.MAX_PLACED_ITEMS_NUM
+end
+
 local function RebuildHouse(player: Player)
 	local gamePlayer: Types.GamePlayer = PlayerManager.GetGamePlayer(player)
 	if gamePlayer then
@@ -113,6 +122,12 @@ function HouseBuilder.bindEvents()
 	-- 配置イベント
 	placeEvent.OnServerEvent:Connect(function(player: Player, partName: string, position: Vector3, yawRadian: number, color: Color3, material: Enum.Material)
 		if typeof(position) == "Vector3" and typeof(yawRadian) == "number" then
+			
+			if not CanPlaceMore(player) then
+				ServerRemoteSender.SendAnnounce(player, "CantPutAnymore")
+				return
+			end
+
 			if (not IsInTheProperty(player, position)) then
 				print("not in the property")
 				ServerRemoteSender.SendAnnounce(player, "OutOfProperty")
