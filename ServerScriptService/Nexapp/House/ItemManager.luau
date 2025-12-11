@@ -22,6 +22,7 @@ local LocalCordinateHelper = require(ServerScriptService:WaitForChild("Nexapp"):
 local PlayerManager = require(ServerScriptService:WaitForChild("Nexapp"):WaitForChild("Player"):WaitForChild("PlayerManager"))
 local HouseBaseManager = require(ServerScriptService:WaitForChild("Nexapp"):WaitForChild("House"):WaitForChild("HouseBaseManager"))
 local ServerRemoteSender = require(ServerScriptService.Nexsys.ServerRemoteSender)
+local PlacementValidator = require(ServerScriptService.Nexapp.House.PlacementValidator)
 
 --========================
 -- private method
@@ -69,24 +70,7 @@ local function SpawnItem(player: Player, modelName: string, pivotCFrame: CFrame)
 	return placed
 end
 
-local function IsInTheProperty(player: Player, position: Vector3): boolean
-	local basePart = HouseBaseManager.GetBase(player)
-	local basePosition = basePart.Position
-	local baseSize = basePart.Size
-	return basePosition.X - baseSize.X/2 <= position.X and 
-		basePosition.X + baseSize.X/2 >= position.X and
-		basePosition.Z - baseSize.Z/2 <= position.Z and
-		basePosition.Z + baseSize.Z/2 >= position.Z
-end
 
-local function CanPlaceMore(player: Player): boolean
-	local gamePlayer = PlayerManager.GetGamePlayer(player)
-	if not gamePlayer then
-		return false
-	end
-	local placedCount = gamePlayer:GetPlayerData():GetPlacedItemNum()
-	return placedCount < Define.MAX_PLACED_ITEMS_NUM
-end
 
 
 local function ReloadFurnitures(player: Player)
@@ -117,16 +101,8 @@ function ItemManager.bindEvents()
 	
 	ItemPlaceEvent.OnServerEvent:Connect(function(player: Player, modelName: string, pivotCFrame: CFrame)
 		
-		-- Check if player can place more items
-		if not CanPlaceMore(player) then
-			ServerRemoteSender.SendAnnounce(player, "CantPutAnymore")
-			return
-		end
-		
 		local position = pivotCFrame.Position
-		if (not IsInTheProperty(player, position)) then
-			print("not in the property")
-			ServerRemoteSender.SendAnnounce(player, "OutOfProperty")
+		if not PlacementValidator.Validate(player, position) then
 			return
 		end
 		local placedItem = SpawnItem(player, modelName, pivotCFrame)

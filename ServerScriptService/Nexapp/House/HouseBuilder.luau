@@ -22,6 +22,7 @@ local MaterialConverter = require(ReplicatedStorage.Script.MaterialConverter)
 
 local PlayerManager: Types.PlayerManager = require(ServerScriptService:WaitForChild("Nexapp"):WaitForChild("Player"):WaitForChild("PlayerManager"))
 local LocalCordinateHelper = require(ServerScriptService:WaitForChild("Nexapp"):WaitForChild("House"):WaitForChild("LocalCordinateHelper"))
+local PlacementValidator = require(ServerScriptService.Nexapp.House.PlacementValidator)
 local SaveDataLoadedEvent = ReplicatedStorage:WaitForChild("BindableEvent"):WaitForChild("SaveDataLoadedEvent")
 
 local HouseBuilder = {}
@@ -67,24 +68,7 @@ local function Create(player: Player, partName: string, position: Vector3, yawRa
 	return buildItem
 end
 
-local function IsInTheProperty(player: Player, position: Vector3): boolean
-	local basePart = HouseBaseManager.GetBase(player)
-	local basePosition = basePart.Position
-	local baseSize = basePart.Size
-	return basePosition.X - baseSize.X/2 <= position.X and 
-		basePosition.X + baseSize.X/2 >= position.X and
-		basePosition.Z - baseSize.Z/2 <= position.Z and
-		basePosition.Z + baseSize.Z/2 >= position.Z
-end
 
-local function CanPlaceMore(player: Player): boolean
-	local gamePlayer = PlayerManager.GetGamePlayer(player)
-	if not gamePlayer then
-		return false
-	end
-	local placedCount = gamePlayer:GetPlayerData():GetPlacedItemNum()
-	return placedCount < Define.MAX_PLACED_ITEMS_NUM
-end
 
 local function RebuildHouse(player: Player)
 	local gamePlayer: Types.GamePlayer = PlayerManager.GetGamePlayer(player)
@@ -123,14 +107,7 @@ function HouseBuilder.bindEvents()
 	placeEvent.OnServerEvent:Connect(function(player: Player, partName: string, position: Vector3, yawRadian: number, color: Color3, material: Enum.Material)
 		if typeof(position) == "Vector3" and typeof(yawRadian) == "number" then
 			
-			if not CanPlaceMore(player) then
-				ServerRemoteSender.SendAnnounce(player, "CantPutAnymore")
-				return
-			end
-
-			if (not IsInTheProperty(player, position)) then
-				print("not in the property")
-				ServerRemoteSender.SendAnnounce(player, "OutOfProperty")
+			if not PlacementValidator.Validate(player, position) then
 				return
 			end
 			
