@@ -7,6 +7,14 @@ function TextUtil.ReplaceStrsText(text : string, strs : table) : string
 	end
 	return text
 end
+
+-- @brief {number1} {number2} のようなテキストを置換
+function TextUtil.ReplaceNumbersText(text : string, nums : {number}) : string
+	for i, number in ipairs(nums) do
+		text = string.gsub(text, "{number" .. i .. "}", tostring(number))
+	end
+	return text
+end
 ----------------------------------------------------------------------------------------------------
 -- @brief strsに自分で置換したい文字列をマップでいれて置換
 function TextUtil.ReplaceStrsMapText(text: string, strs: {string} )

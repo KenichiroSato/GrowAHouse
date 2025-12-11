@@ -2,7 +2,7 @@ local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
 
 local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local Define = require(ReplicatedFirst.Nexapp.Common.Define)
+local SystemDefine = require(ReplicatedFirst.Nexsys.Common.SystemDefine)
 local Types = require(ReplicatedFirst.Nexapp.Common.Types)
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -222,7 +222,7 @@ end
 ----------------------------------------------------------------------
 function PlayerManager.AnnouceTalkToAll(str, talkerImage, nameText)
 	ReplicatedStorage.RemoteEvent.CommonRemoteEvent:FireAllClients(
-		Define.CommonClientEvent.AnnounceTalk, str, talkerImage, nameText)
+		SystemDefine.CommonClientEvent.AnnounceTalk, str, talkerImage, nameText)
 end
 ----------------------------------------------------------------------------------------------------
 -- AnnounceToAll
@@ -237,25 +237,25 @@ end
 ----------------------------------------------------------------------
 function PlayerManager.ScreenFadeOutAll(fadeTime)
 	ReplicatedStorage.RemoteEvent.CommonRemoteEvent:FireAllClients(
-		Define.CommonClientEvent.FadeOut, fadeTime)
+		SystemDefine.CommonClientEvent.FadeOut, fadeTime)
 end
 function PlayerManager.ScreenFadeInAll(fadeTime)
 	ReplicatedStorage.RemoteEvent.CommonRemoteEvent:FireAllClients(
-		Define.CommonClientEvent.FadeIn, fadeTime)
+		SystemDefine.CommonClientEvent.FadeIn, fadeTime)
 end
 ----------------------------------------------------------------------
 -- 
 ----------------------------------------------------------------------
 function PlayerManager.FadeInUIAll(uiElem, fadeTime)
 	ReplicatedStorage.RemoteEvent.CommonRemoteEvent:FireAllClients(
-		Define.CommonClientEvent.FadeInUI, uiElem, fadeTime)
+		SystemDefine.CommonClientEvent.FadeInUI, uiElem, fadeTime)
 end
 ----------------------------------------------------------------------
 -- 
 ----------------------------------------------------------------------
 function PlayerManager.FadeInScreenGUIAll(guiName, fadeTime)
 	ReplicatedStorage.RemoteEvent.CommonRemoteEvent:FireAllClients(
-		Define.CommonClientEvent.FadeInScreenGUI, guiName, fadeTime)
+		SystemDefine.CommonClientEvent.FadeInScreenGUI, guiName, fadeTime)
 end
 ----------------------------------------------------------------------
 -- 

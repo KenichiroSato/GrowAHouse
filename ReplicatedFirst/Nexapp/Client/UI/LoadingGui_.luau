@@ -44,6 +44,8 @@ function LoadingGui_:Init(gui : ScreenGui)
 	self.imageChangeTimer = Timer.new()
 	self.imageChangeTimer:SetSpan(0.5)
 	self.percentText = self:FindDescendantText("Percent")
+	self:SetZoomShowHide(true)
+	self:SetFlyInShowHide(false)
 	self:SetShowUpdate(true)
 end
 ----------------------------------------------------------------------------------------------------

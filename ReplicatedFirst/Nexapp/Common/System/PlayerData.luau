@@ -206,6 +206,13 @@ function PlayerData:ResetFurnitures()
 	self:SetFurnitures({})
 end
 
+function PlayerData:GetPlacesItemNum(): number
+	local buildingParts = self:GetBuildingParts() or {}
+	local furnitures = self:GetFurnitures() or {}
+	return #buildingParts + #furnitures
+end
+
+----------------------------------------------------------------------------------------------------
 function PlayerData:UpdateCoinPerSec(): number
 	local coinPerSec = 0
 	for _, housePart:Types.HousePart in self:GetFurnitures() do
