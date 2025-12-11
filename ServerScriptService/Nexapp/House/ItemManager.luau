@@ -11,17 +11,14 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local STR = require(ReplicatedStorage:WaitForChild("Script"):WaitForChild("Strings"))
 local remoteEventFolder = ReplicatedStorage:WaitForChild("RemoteEvent")
 local ItemPlaceEvent = remoteEventFolder:WaitForChild("ItemPlaceEvent") :: RemoteEvent
-local SaveDataLoadedEvent = ReplicatedStorage:WaitForChild("BindableEvent"):WaitForChild("SaveDataLoadedEvent")
+local SaveDataLoadedEvent = ReplicatedStorage:WaitForChild("BindableEvent"):WaitForChild("SaveDataLoadedEvent") :: BindableEvent
 
 local ReplicatedFirst = game:GetService("ReplicatedFirst")
 local Types = require(ReplicatedFirst.Nexapp.Common.Types)
-local Define = require(ReplicatedFirst.Nexapp.Common.Define)
 
 local ServerScriptService = game:GetService("ServerScriptService")
 local LocalCordinateHelper = require(ServerScriptService:WaitForChild("Nexapp"):WaitForChild("House"):WaitForChild("LocalCordinateHelper"))
 local PlayerManager = require(ServerScriptService:WaitForChild("Nexapp"):WaitForChild("Player"):WaitForChild("PlayerManager"))
-local HouseBaseManager = require(ServerScriptService:WaitForChild("Nexapp"):WaitForChild("House"):WaitForChild("HouseBaseManager"))
-local ServerRemoteSender = require(ServerScriptService.Nexsys.ServerRemoteSender)
 local PlacementValidator = require(ServerScriptService.Nexapp.House.PlacementValidator)
 
 --========================
