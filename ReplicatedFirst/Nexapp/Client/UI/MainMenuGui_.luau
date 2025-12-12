@@ -32,18 +32,22 @@ end
 ----------------------------------------------------------------------------------------------------
 
 local isInHouse = false
+local isBuildPressed = false
+local isItemsPressed = false
 --========================
 -- private method
 --========================
 
 
 local function OnBuildButtonPressed(self)
+	isBuildPressed = true
 	self.IndicatorArrowBuildHandler:SetActive(false)
 	local buildGui_ = BuildGui_.GetInstance()
 	buildGui_:ToggleShowHide()
 end
 
 local function OnItemsButtonPressed(self)
+	isItemsPressed = true
 	self.IndicatorArrowItemsHandler:SetActive(false)
 	local ItemsGui_ = ItemsGui_.GetInstance()
 	ItemsGui_:ToggleShowHide()
@@ -112,6 +116,9 @@ local function CanShow(self): boolean
 end
 
 local function ShouldShowBuildArrow(self): boolean
+	if isBuildPressed then
+		return false
+	end
 	if PlayerData:IsProgressFlag(ProgressFlagData.Flag_FirstTalkEnd) and 
 		PlayerData:GetBuildingPartsNum() == 0
 	then
@@ -121,9 +128,11 @@ local function ShouldShowBuildArrow(self): boolean
 end
 
 local function ShouldShowItemsArrow(self): boolean
+	if isItemsPressed then
+		return false
+	end
 	if PlayerData:IsProgressFlag(ProgressFlagData.Flag_FirstPurchaseComplete) and 
-		not PlayerData:IsProgressFlag(ProgressFlagData.Flag_FirstItemPlaceComplete) and 
-		PlayerData:GetBuildingPartsNum() == 0
+		not PlayerData:IsProgressFlag(ProgressFlagData.Flag_FirstItemPlaceComplete)
 	then
 		return true
 	end

@@ -223,6 +223,7 @@ function GamePlayer:AddFurniture(part: Types.HousePart)
 	local currentParts = self:GetFurnitures()
 	table.insert(currentParts, part)
 	self.playerData:SetFurnitures(currentParts)
+	self.playerData:SetProgressFlag(ProgressFlagData.Flag_FirstItemPlaceComplete)
 end
 
 function GamePlayer:GetFurnitures(): Types.HousePartArray

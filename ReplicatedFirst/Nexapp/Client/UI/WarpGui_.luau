@@ -56,9 +56,9 @@ local function Init(self, gui : ScreenGui)
 	end)
 	
 	local indicatorArrowFurniture = gui:FindFirstChild("FurnitureArrow", true) :: GuiObject
-	self.indicatorArrowFurnitureHandler = PointingUIElem_.new(indicatorArrowFurniture, UDim2.fromScale(0, 0.4))
+	self.indicatorArrowFurnitureHandler = PointingUIElem_.new(indicatorArrowFurniture, UDim2.fromScale(0, 0.5))
 	local indicatorArrowHome = gui:FindFirstChild("HomeArrow", true) :: GuiObject
-	self.indicatorArrowHomeHandler = PointingUIElem_.new(indicatorArrowHome, UDim2.fromScale(0, 0.4))
+	self.indicatorArrowHomeHandler = PointingUIElem_.new(indicatorArrowHome, UDim2.fromScale(0, 0.5))
 	
 	SystemDataModule_.WaitUntilLoadingScreenEnded()
 	self:SetUpdate(true)
