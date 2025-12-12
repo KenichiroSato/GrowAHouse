@@ -19,6 +19,7 @@ local LoginBonus = require(ServerScriptService.Nexapp.System.LoginBonus)
 local StayBonus = require(ServerScriptService.Nexapp.System.StayBonus)
 local OrderedSaveDataManager = require(ServerScriptService.Nexsys.OrderedSaveDataManager)
 local CoinGenerator = require(ServerScriptService.Nexapp.Player.CoinGenerator)
+local TutorialController = require(ServerScriptService.Nexapp.System.TutorialController)
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local SaveDataLoadedEvent = ReplicatedStorage:WaitForChild("BindableEvent"):WaitForChild("SaveDataLoadedEvent")
@@ -27,19 +28,6 @@ local SaveDataLoadedEvent = ReplicatedStorage:WaitForChild("BindableEvent"):Wait
 local GamePlayer = {}
 GamePlayer.__index = GamePlayer
 setmetatable(GamePlayer, BasePlayer)
-----------------------------------------------------------------------------------------------------
-local function CheckToShowInitialTutorial(self)
-	if self.isInitialTutorialChecked then
-		return
-	end
-	if self.isClientGameStarted and self.playerData:IsSaveDataLoaded() then
-		self.isInitialTutorialChecked = true
-		if self.playerData:IsProgressFlag(ProgressFlagData.Flag_FirstTalkEnd) then
-			return
-		end
-		self:SendRemoteEvent("CutSceneFirstTalk")
-	end
-end
 ----------------------------------------------------------------------------------------------------
 --
 function GamePlayer.new(player: Player)
@@ -64,6 +52,8 @@ function GamePlayer:Init(player: Player)
 	self.stayBonus = StayBonus.new(self)
 	
 	self.coinGenerator = CoinGenerator.new(self, 10, 1) :: Types.CoinGenerator
+
+	self.tutorialController = TutorialController.new(self)
 
 	player.Chatted:Connect(function(message, recipient)
 		local DebugCommand = require(ServerScriptService.Nexapp.Debug.DebugCommand)
@@ -155,7 +145,7 @@ end
 function GamePlayer:Update(dt)
 	BasePlayer.Update(self, dt)
 	
-	CheckToShowInitialTutorial(self)
+	self.tutorialController:CheckToShowInitialTutorial()
 	-- self:UpdateDebugInfo()
 end
 ----------------------------------------------------------------------------------------------------
@@ -178,8 +168,7 @@ end
 
 function GamePlayer:OnFirstTalkEnd()
 	print("OnFirstTalkEnd")
-
-	self.playerData:SetProgressFlag(ProgressFlagData.Flag_FirstTalkEnd)
+	self.tutorialController:OnFirstTalkEnd()
 end
 
 ----------------------------------------------------------------------------------------------------
