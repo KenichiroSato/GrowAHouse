@@ -167,6 +167,10 @@ function PlayerData:GetBuildingParts() : Types.BuildingPartArray
 	return self:GetSaveDataKey(PlayerSaveTable.Keys.BuildingParts)
 end
 
+function PlayerData:GetBuildingPartsNum() : number
+	return #self:GetSaveDataKey(PlayerSaveTable.Keys.BuildingParts)
+end
+
 function PlayerData:ResetBuildingParts()
 	self:SetSaveDataKey(PlayerSaveTable.Keys.BuildingParts, {})
 end
@@ -202,14 +206,16 @@ function PlayerData:GetFurnitures() : Types.HousePartArray
 	return self:GetSaveDataKey(PlayerSaveTable.Keys.Furnitures)
 end
 
+function PlayerData:GetFurnituresNum() : Types.HousePartArray
+	return #self:GetSaveDataKey(PlayerSaveTable.Keys.Furnitures)
+end
+
 function PlayerData:ResetFurnitures()
 	self:SetFurnitures({})
 end
 
 function PlayerData:GetPlacedItemNum(): number
-	local buildingParts = self:GetBuildingParts() or {}
-	local furnitures = self:GetFurnitures() or {}
-	return #buildingParts + #furnitures
+	return self:GetBuildingPartsNum() + self:GetFurnituresNum()
 end
 
 ----------------------------------------------------------------------------------------------------

@@ -111,6 +111,26 @@ local function CanShow(self): boolean
 	return true
 end
 
+local function ShouldShowBuildArrow(self): boolean
+	if PlayerData:IsProgressFlag(ProgressFlagData.Flag_FirstTalkEnd) and 
+		PlayerData:GetBuildingPartsNum() == 0
+	then
+		return true
+	end
+	return false
+end
+
+local function ShouldShowItemsArrow(self): boolean
+	if PlayerData:IsProgressFlag(ProgressFlagData.Flag_FirstPurchaseComplete) and 
+		not PlayerData:IsProgressFlag(ProgressFlagData.Flag_FirstItemPlaceComplete) and 
+		PlayerData:GetBuildingPartsNum() == 0
+	then
+		return true
+	end
+	return false
+end
+
+
 --========================
 -- public method
 --========================
@@ -122,8 +142,6 @@ function MainMenuGui_.new(...)
 end
 
 function MainMenuGui_:OnShow()
-	self.IndicatorArrowBuildHandler:SetActive(true)
-	self.IndicatorArrowItemsHandler:SetActive(true)
 end
 
 function MainMenuGui_:onUpdate(dt: number)
@@ -131,6 +149,8 @@ function MainMenuGui_:onUpdate(dt: number)
 		self:SetShowHide(true)
 		local num = PlayerData:GetPlacedItemNum()
 		self.placedItemsText.Text = TextUtil.ReplaceNumbersText(self.placedItemsTextOriginal, {num, Define.MAX_PLACED_ITEMS_NUM})
+		self.IndicatorArrowBuildHandler:SetActive(ShouldShowBuildArrow(self))
+		self.IndicatorArrowItemsHandler:SetActive(ShouldShowItemsArrow(self))
 	else
 		HideAll(self)
 	end
