@@ -39,18 +39,12 @@ return {
 		{ EventInstType.TalkSequence, "FirstBuild" },
 		{ EventInstType.ShowScreenGUI},
 		{ EventInstType.EnableProximityPrompt },
-		{ EventInstType.Wait, 2 },
 		{ EventInstType.SendCSRemoteEvent, "OnFirstTalkEnd" },
 	},
 	
-	Event_FirstBuild = {
-		{ EventInstType.DisableProximityPrompt },
-		{ EventInstType.LockPlayer },
+	Event_FirstPurchase = {
 		{ EventInstType.HideScreenGUI},
-		{ EventInstType.TalkSequence, "FirstBuild" },
-		{ EventInstType.Wait, 3 },
+		{ EventInstType.TalkSequence, "FirstPurchese" },
 		{ EventInstType.ShowScreenGUI},
-		{ EventInstType.UnlockPlayer },
-		{ EventInstType.EnableProximityPrompt },
 	}
 }

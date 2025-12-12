@@ -207,6 +207,7 @@ function GamePlayer:AddBuildingPart(part: Types.BuildingPart)
 	local currentParts = self:GetBuildingParts()
 	table.insert(currentParts, part)
 	self.playerData:SetBuildingParts(currentParts)
+	self.playerData:SetProgressFlag(ProgressFlagData.Flag_FirstBuildComplete)
 end
 
 function GamePlayer:GetBuildingParts(): Types.BuildingPartArray

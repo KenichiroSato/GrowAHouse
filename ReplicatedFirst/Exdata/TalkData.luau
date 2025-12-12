@@ -12,5 +12,8 @@ local items = {
 	FirstBuild = {
 		{ Text = "Let's start by building the floor of your house!", TextJP = "まずは家の床を作ってみよう！", NoDistanceHide = true, TalkerPath = TALKER_PATH, TalkEndTime = 3, IsWaitInput = false },
 	},
+	FirstPurchese = {
+		{ Text = "Next, let's go to the shop and buy some furniture!", TextJP = "次にお店に行って家具を買おう！", NoDistanceHide = true, TalkerPath = TALKER_PATH, TalkEndTime = 3, IsWaitInput = false },
+	},
 }
 return items

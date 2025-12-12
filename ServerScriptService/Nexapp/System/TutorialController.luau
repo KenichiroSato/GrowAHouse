@@ -30,28 +30,23 @@ local function CheckToShowInitialTutorial(self): boolean
 	return false
 end
 
-local function CheckToShowBuildTutorial(self): boolean
-	if not self.gamePlayer.playerData:IsProgressFlag(ProgressFlagData.Flag_FirstTalkEnd) then
+local function CheckToShowPurchaseTutorial(self): boolean
+	if self.isPurchaseTutorialChecked then
 		return false
 	end
-	if self.isBuildTutorialChecked then
+	if not self.gamePlayer.isClientGameStarted then
 		return false
 	end
-	local function ShouldShowBuildTutorial(): boolean
-		local buildNum = #self.gamePlayer:GetPlayerData():GetBuildingParts() :: Types.BuildingPartArray or 0
-		local flag = self.gamePlayer.playerData:IsProgressFlag(ProgressFlagData.Flag_FirstBuildComplete)
-		if not self.gamePlayer.playerData:IsProgressFlag(ProgressFlagData.Flag_FirstBuildComplete) and buildNum == 0 then
-			return true
-		end
+	if not self.gamePlayer.playerData:IsSaveDataLoaded() then
 		return false
 	end
-	
-	if self.gamePlayer.isClientGameStarted and self.gamePlayer.playerData:IsSaveDataLoaded() then
-		self.isBuildTutorialChecked = true
-		if ShouldShowBuildTutorial() then
-			--self.gamePlayer:SendRemoteEvent("Event_FirstBuild")
-			return true
-		end
+	if not self.gamePlayer.playerData:IsProgressFlag(ProgressFlagData.Flag_FirstBuildComplete) then
+		return false
+	end	
+	self.isPurchaseTutorialChecked = true
+	if not self.gamePlayer.playerData:IsProgressFlag(ProgressFlagData.Flag_FirstPurchaseComplete) then
+		self.gamePlayer:SendRemoteEvent("Event_FirstPurchase")
+		return true
 	end
 	return false
 end
@@ -61,7 +56,7 @@ function TutorialController:Check()
 	if CheckToShowInitialTutorial(self) then
 		return
 	end
-	if CheckToShowBuildTutorial(self) then
+	if CheckToShowPurchaseTutorial(self) then
 		return
 	end
 end
