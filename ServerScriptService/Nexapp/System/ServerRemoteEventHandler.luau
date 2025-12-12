@@ -14,6 +14,11 @@ local function onCommonServerEvent(player: Player, eventType, ...)
 		return
 	end
 
+	-- TutorialController へのイベント（eventType と同名の関数があれば呼ぶ）
+	if type(eventType) == "string" and gp.tutorialController[eventType] then
+		return gp.tutorialController[eventType](gp.tutorialController, ...)
+	end
+
 	-- SystemServerRemoteHandlerへ移動予定
 	if eventType == Define.CommonServerEvent.AreaStreamingRequest then
 		return gp:OnAreaStreamingRequest(...)

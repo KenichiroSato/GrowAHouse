@@ -166,11 +166,6 @@ function GamePlayer:GetPlayerData()
 	return self.playerData
 end
 
-function GamePlayer:OnFirstTalkEnd()
-	print("OnFirstTalkEnd")
-	self.tutorialController:OnFirstTalkEnd()
-end
-
 ----------------------------------------------------------------------------------------------------
 -- 以下コンテンツ実装系
 ----------------------------------------------------------------------------------------------------
