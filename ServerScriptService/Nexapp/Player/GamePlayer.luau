@@ -239,6 +239,7 @@ function GamePlayer:GetPurchasedItems(): {string}
 end
 
 function GamePlayer:AddPurchasedItem(name:string)
+	self.playerData:SetProgressFlag(ProgressFlagData.Flag_FirstPurchaseComplete)
 	self.playerData:AddPurchasedItem(name)
 end
 
