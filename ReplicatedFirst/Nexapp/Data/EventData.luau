@@ -46,5 +46,12 @@ return {
 		{ EventInstType.HideScreenGUI},
 		{ EventInstType.TalkSequence, "FirstPurchese" },
 		{ EventInstType.ShowScreenGUI},
+	},
+	
+	Event_LetsGoHome = {
+		{ EventInstType.HideScreenGUI},
+		{ EventInstType.TalkSequence, "LetsGoHome" },
+		{ EventInstType.ShowScreenGUI},
 	}
+
 }

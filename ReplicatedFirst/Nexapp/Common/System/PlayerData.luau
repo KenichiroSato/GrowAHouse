@@ -298,6 +298,17 @@ function PlayerData:GetPurchasedItems(): {[string]: number}
 	return self:GetSaveDataKey(PlayerSaveTable.Keys.PurchasedItems)
 end
 
+function PlayerData:GetPurchasedItemsNum(): number
+	local items = self:GetPurchasedItems()
+	if not items then
+		return 0
+	end
+	local count = 0
+	for _ in pairs(items) do
+		count += 1
+	end
+	return count
+end
 
 -- アイテムを追加（個数を1増やす）
 function PlayerData:AddPurchasedItem(name: string)

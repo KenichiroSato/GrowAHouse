@@ -44,6 +44,7 @@ export type PlayerData = {
 	GetLastPartMaterial: (self: PlayerData, partName: string) -> string?,
 	SetLastPartMaterial: (self: PlayerData, partName: string, material: string) -> (),
 	GetPurchasedItems: (self: PlayerData) -> {[string]: number},
+	GetPurchasedItemsNum: (self: PlayerData) -> number,
 	AddPurchasedItem: (self: PlayerData, name: string) -> (),
 	RemovePurchasedItem: (self: PlayerData, name: string) -> (),
 	ResetPurchasedItem: (self: PlayerData) -> (),

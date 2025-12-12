@@ -51,12 +51,38 @@ local function CheckToShowPurchaseTutorial(self): boolean
 	return false
 end
 
+local function CheckToShowLetsHomeTutorial(self): boolean
+	if self.isLetsHomeTutorialChecked then
+		return false
+	end
+	if not self.gamePlayer.isClientGameStarted then
+		return false
+	end
+	if not self.gamePlayer.playerData:IsSaveDataLoaded() then
+		return false
+	end
+	if not self.gamePlayer.playerData:IsProgressFlag(ProgressFlagData.Flag_FirstPurchaseComplete) then
+		return false
+	end	
+	self.isLetsHomeTutorialChecked = true
+	if not self.gamePlayer.playerData:IsProgressFlag(ProgressFlagData.Flag_FirstItemPlaceComplete) and
+		self.gamePlayer.playerData:GetPurchasedItemsNum() > 0
+	then
+		self.gamePlayer:SendRemoteEvent("Event_LetsGoHome")
+		return true
+	end
+	return false
+end
+
 
 function TutorialController:Check()
 	if CheckToShowInitialTutorial(self) then
 		return
 	end
 	if CheckToShowPurchaseTutorial(self) then
+		return
+	end
+	if CheckToShowLetsHomeTutorial(self) then
 		return
 	end
 end

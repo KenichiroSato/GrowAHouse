@@ -15,5 +15,8 @@ local items = {
 	FirstPurchese = {
 		{ Text = "Next, let's go to the shop and buy some furniture!", TextJP = "次にお店に行って家具を買おう！", NoDistanceHide = true, TalkerPath = TALKER_PATH, TalkEndTime = 3, IsWaitInput = false },
 	},
+	LetsGoHome = {
+		{ Text = "Let's go back home and set it up!", TextJP = "さっそく家に帰って配置してみよう！", NoDistanceHide = true, TalkerPath = TALKER_PATH, TalkEndTime = 3, IsWaitInput = false },
+	},
 }
 return items
