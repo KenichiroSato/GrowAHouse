@@ -49,7 +49,7 @@ local function CheckToShowBuildTutorial(self): boolean
 	if self.gamePlayer.isClientGameStarted and self.gamePlayer.playerData:IsSaveDataLoaded() then
 		self.isBuildTutorialChecked = true
 		if ShouldShowBuildTutorial() then
-			self.gamePlayer:SendRemoteEvent("Event_FirstBuild")
+			--self.gamePlayer:SendRemoteEvent("Event_FirstBuild")
 			return true
 		end
 	end

@@ -35,9 +35,11 @@ return {
 		{ EventInstType.ResetCamera },
 		{ EventInstType.Wait, CAMERA_FADE_DURATION },
 		{ EventInstType.FadeIn, CAMERA_FADE_DURATION},
-		{ EventInstType.ShowScreenGUI},
 		{ EventInstType.UnlockPlayer },
+		{ EventInstType.TalkSequence, "FirstBuild" },
+		{ EventInstType.ShowScreenGUI},
 		{ EventInstType.EnableProximityPrompt },
+		{ EventInstType.Wait, 2 },
 		{ EventInstType.SendCSRemoteEvent, "OnFirstTalkEnd" },
 	},
 	

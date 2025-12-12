@@ -3,6 +3,8 @@ local ReplicatedFirst = game:GetService("ReplicatedFirst")
 local BaseGui_ = require(ReplicatedFirst.Nexsys.Client.BaseGui_)
 local Define = require(ReplicatedFirst.Nexapp.Common.Define)
 local PointingUIElem_ = require(ReplicatedFirst.Nexsys.Client.UI.UIElem.PointingUIElem_)
+local ProgressFlagData = require(ReplicatedFirst.Nexapp.Data.ProgressFlagData)
+local SystemDataModule_ = require(ReplicatedFirst.Nexsys.Client.SystemDataModule_)
 
 local BuildGui_ = require(ReplicatedFirst.Nexapp.Client.UI.HouseBuildGui_)
 local EditGui_ = require(ReplicatedFirst.Nexapp.Client.UI.EditGui_)
@@ -29,6 +31,7 @@ function MainMenuGui_.GetInstance()
 end
 ----------------------------------------------------------------------------------------------------
 
+local isInHouse = false
 --========================
 -- private method
 --========================
@@ -73,13 +76,10 @@ local function Init(self, gui : ScreenGui)
 	local houseBase = getHouseBaseFunction:InvokeServer(game.Players.LocalPlayer)
 	self.zone = zoneplus.new(houseBase)
 	self.zone.localPlayerEntered:Connect(function(player)
-		self:SetShowHide(true)
+		isInHouse = true
 	end)
 	self.zone.playerExited:Connect(function(player)
-		self:SetShowHide(false)
-		BuildGui_.GetInstance():SetShowHide(false)
-		ItemsGui_.GetInstance():SetShowHide(false)
-		EditGui_.GetInstance():SetShowHide(false)
+		isInHouse = false
 	end)
 	
 	self.placedItemsText = gui:FindFirstChild("PlacedItemsLabel", true) :: TextLabel
@@ -90,7 +90,25 @@ local function Init(self, gui : ScreenGui)
 	local indicatorArrowItems = gui:FindFirstChild("IndicatorArrowItems", true) :: GuiObject
 	self.IndicatorArrowItemsHandler = PointingUIElem_.new(indicatorArrowItems, UDim2.fromScale(0, 0.04))
 	
+	SystemDataModule_.WaitUntilLoadingScreenEnded()
 	self:SetUpdate(true)
+end
+
+local function HideAll(self)
+	self:SetShowHide(false)
+	BuildGui_.GetInstance():SetShowHide(false)
+	ItemsGui_.GetInstance():SetShowHide(false)
+	EditGui_.GetInstance():SetShowHide(false)
+end
+
+local function CanShow(self): boolean
+	if not isInHouse then
+		return false
+	end
+	if not PlayerData:IsProgressFlag(ProgressFlagData.Flag_FirstTalkEnd) then
+		return false
+	end
+	return true
 end
 
 --========================
@@ -109,8 +127,13 @@ function MainMenuGui_:OnShow()
 end
 
 function MainMenuGui_:onUpdate(dt: number)
-	local num = PlayerData:GetPlacedItemNum()
-	self.placedItemsText.Text = TextUtil.ReplaceNumbersText(self.placedItemsTextOriginal, {num, Define.MAX_PLACED_ITEMS_NUM})
+	if CanShow(self) then
+		self:SetShowHide(true)
+		local num = PlayerData:GetPlacedItemNum()
+		self.placedItemsText.Text = TextUtil.ReplaceNumbersText(self.placedItemsTextOriginal, {num, Define.MAX_PLACED_ITEMS_NUM})
+	else
+		HideAll(self)
+	end
 end
 
 
