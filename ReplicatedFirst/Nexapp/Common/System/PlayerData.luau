@@ -455,16 +455,6 @@ function PlayerData:HasCanClaimMission()
 end
 
 ----------------------------------------------------------------------------------------------------
--- 
-function PlayerData:SetProgressFlag(flagKey)
-	self:SetSaveDataKey2(PlayerSaveTable.Keys.ProgressFlags, flagKey, true)
-end
-----------------------------------------------------------------------------------------------------
--- IsProgressFlag
-function PlayerData:IsProgressFlag(flagKey)
-	return self:GetSaveDataKey2(PlayerSaveTable.Keys.ProgressFlags, flagKey)
-end
-----------------------------------------------------------------------------------------------------
 -- Util系
 ----------------------------------------------------------------------------------------------------
 -- 

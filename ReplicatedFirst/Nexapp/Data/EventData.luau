@@ -40,4 +40,15 @@ return {
 		{ EventInstType.EnableProximityPrompt },
 		{ EventInstType.SendCSRemoteEvent, "OnFirstTalkEnd" },
 	},
+	
+	Event_FirstBuild = {
+		{ EventInstType.DisableProximityPrompt },
+		{ EventInstType.LockPlayer },
+		{ EventInstType.HideScreenGUI},
+		{ EventInstType.TalkSequence, "FirstBuild" },
+		{ EventInstType.Wait, 3 },
+		{ EventInstType.ShowScreenGUI},
+		{ EventInstType.UnlockPlayer },
+		{ EventInstType.EnableProximityPrompt },
+	}
 }

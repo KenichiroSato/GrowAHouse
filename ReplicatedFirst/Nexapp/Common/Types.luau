@@ -80,6 +80,8 @@ export type GamePlayer = {
 	GetPurchasedItems:(self:GamePlayer) -> {[string]: number},
 	AddPurchasedItem:(self:GamePlayer,name:string) -> (),
 	RemovePurchasedItem:(self:GamePlayer,name: string) -> (),
+	
+	GetPlayerData:(self: GamePlayer) -> PlayerData,
 }
 
 export type ColorSelectMenu ={

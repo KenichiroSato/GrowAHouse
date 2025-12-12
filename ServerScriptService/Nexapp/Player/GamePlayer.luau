@@ -145,7 +145,7 @@ end
 function GamePlayer:Update(dt)
 	BasePlayer.Update(self, dt)
 	
-	self.tutorialController:CheckToShowInitialTutorial()
+	self.tutorialController:Check()
 	-- self:UpdateDebugInfo()
 end
 ----------------------------------------------------------------------------------------------------
@@ -162,7 +162,7 @@ function GamePlayer:OnClientGameStarted()
 end
 ----------------------------------------------------------------------------------------------------
 -- GetPlayerData
-function GamePlayer:GetPlayerData()
+function GamePlayer:GetPlayerData() : Types.PlayerData
 	return self.playerData
 end
 
