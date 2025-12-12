@@ -19,6 +19,7 @@ WarpGui_.instance = nil
 
 local coinText: TextLabel
 local isFurnitureButtonPlaced = false
+local isHomeButtonPlaced = false
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
 -- GetInstance
@@ -37,7 +38,7 @@ local function Init(self, gui : ScreenGui)
 	local frame = gui:WaitForChild("Frame")
 	
 	self.homeButtonHandler = self:SetupButtonByName("HomeButton", function()
-		print("Home pressed")
+		isHomeButtonPlaced = true
 		teleportToHomeEvent:FireServer()
 	end)
 	self.furnitureButtonHandler = self:SetupButtonByName("FurnitureButton", function()
@@ -74,6 +75,18 @@ local function ShouldShowFurnitureArrow(self): boolean
 	end
 	return false
 end
+
+local function ShouldShowHomeArrow(self): boolean
+	if isHomeButtonPlaced then
+		return false
+	end
+	if PlayerData:IsProgressFlag(ProgressFlagData.Flag_FirstPurchaseComplete) and 
+		not PlayerData:IsProgressFlag(ProgressFlagData.Flag_FirstItemPlaceComplete)
+	then
+		return true
+	end
+	return false
+end
 --========================
 -- public method
 --========================
@@ -87,7 +100,7 @@ end
 
 function WarpGui_:onUpdate(dt: number)
 	self.indicatorArrowFurnitureHandler:SetActive(ShouldShowFurnitureArrow(self))
-	self.indicatorArrowHomeHandler:SetActive(false)
+	self.indicatorArrowHomeHandler:SetActive(ShouldShowHomeArrow(self))
 end
 
 return WarpGui_
