@@ -10,6 +10,7 @@ local ServerStorage = game:GetService("ServerStorage")
 local priceTemplateBillboard = ServerStorage.PriceTemplateBillboardGui
 local PlayerManager: Types.PlayerManager = require(ServerScriptService.Nexapp.Player.PlayerManager)
 local PriceProvider = require(ReplicatedStorage.Script.PriceProvider)
+local ServerRemoteSender = require(ServerScriptService.Nexsys.ServerRemoteSender)
 
 local ShopItemServer = {}
 local SHOP_ROOT: Instance = workspace:WaitForChild("Shops")
@@ -131,6 +132,7 @@ function ShopItemServer._ensurePrompt(model: Model)
 				gamePlayer:AddPurchasedItem(model.Name)
 				print(player.Name .. "が" .. model.Name .. "を購入")
 			else
+				ServerRemoteSender.SendAnnounce(player, "NotEnoughMoney")
 				print(player.Name .. "がお金が足りません")
 			end
 		end
