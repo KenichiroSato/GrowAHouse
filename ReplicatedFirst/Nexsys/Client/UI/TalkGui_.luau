@@ -54,7 +54,7 @@ function TalkGui_:Init(gui : ScreenGui)
 		DisableAnimation = true,
 	}
 	self.skipButoon = self:SetupButtonByName("SkipButton", function()
-		self:onSkipButtonPushed()
+		--self:onSkipButtonPushed()
 	end, buttonParam)
 end
 ----------------------------------------------------------------------------------------------------
@@ -202,7 +202,7 @@ function TalkGui_:PlayTalkStreamingAsync(talkParam : SystemTypes.TalkParam)
 	end
 
 	self.isTalkEnd = false
-	self:setTextShown(false)
+	self:setTextShown(true)
 	if talkParam.TalkerModel then
 		self:setupTalkerViewportFrame(talkParam.TalkerModel)
 		-- 距離で自動閉じ
@@ -225,7 +225,7 @@ function TalkGui_:PlayTalkStreamingAsync(talkParam : SystemTypes.TalkParam)
 
 	local props = {
 		TextColor3 = "White",
-		TextScale = 0.5,
+		TextScale = 0.8,
 		Font = "Roboto",
 		-- FontFace = Font.new("rbxassetid://12187371324", Enum.FontWeight.Regular, Enum.FontStyle.Normal),
 	}

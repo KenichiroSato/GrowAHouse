@@ -50,8 +50,8 @@ function CoinGui_.new(...)
 end
 
 function CoinGui_:onUpdate(dt: number)
-	coinText.Text = "$" .. PlayerData:GetCoin()
-	perSecText.Text = "$" .. PlayerData:GetCoinPerSec() .. "/s"
+	coinText.Text = "$" .. PlayerData:GetCoin() .. " "
+	perSecText.Text = "$" .. PlayerData:GetCoinPerSec() .. "/s "
 end
 
 return CoinGui_

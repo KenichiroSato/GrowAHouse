@@ -205,7 +205,7 @@ defaults.ImageRectSize = "0,0"
 
 -- Text animation default properties
 	-- character appearance timing:
-defaults.AnimateStepTime = 0 -- Seconds between newframes
+defaults.AnimateStepTime = 0.1 -- Seconds between newframes
 defaults.AnimateStepGrouping = "Letter" -- "Word" or "Letter" or "All"
 defaults.AnimateStepFrequency = 1 -- How often to step, 1 is all, 2 is step in pairs, 3 is every three, etc.
 	-- yielding:

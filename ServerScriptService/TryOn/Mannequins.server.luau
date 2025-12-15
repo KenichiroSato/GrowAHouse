@@ -31,6 +31,8 @@ type MannequinRig = Model & {
 }
 
 local function setupMannequinAsync(mannequin: Instance)
+	local rand = math.random(0.1, 1)
+	task.wait(rand)
 	local base = mannequin:FindFirstChild("Base")
 	assert(base and base:IsA("BasePart"), `{mannequin:GetFullName()} is missing a Base`)
 

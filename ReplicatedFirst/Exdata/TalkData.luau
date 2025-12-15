@@ -1,7 +1,7 @@
-local TALKER_PATH = "ReplicatedStorage.Models.Noob"
+local TALKER_PATH = nil --"ReplicatedStorage.Models.Noob"
 local items = {
     FirstTalkWelcome = {
-        { Text = "Welcole！", TextJP = "ようこそ！", NoDistanceHide = true, TalkerPath = TALKER_PATH, TalkEndTime = nil },
+		{ Text = "Welcole！", TextJP = "ようこそ！", NoDistanceHide = true, TalkerPath = TALKER_PATH, TalkEndTime = 2, IsWaitInput = false },
     },
 	FirstTalkYouCanBuild = {
 		{ Text = "In here, you can build your own dream house!", TextJP = "ここでは君だけの理想の家が作れるよ", NoDistanceHide = true, TalkerPath = TALKER_PATH, TalkEndTime = 5, IsWaitInput = false},
@@ -10,13 +10,13 @@ local items = {
 		{ Text = "Buy furniture and toys in the shop and decorate your home freely!", TextJP = "お店で家具やおもちゃを買って自由に家をかざろう", NoDistanceHide = true, TalkerPath = TALKER_PATH, TalkEndTime = 5, IsWaitInput = false },
 	},
 	FirstBuild = {
-		{ Text = "Let's start by building the floor of your house!", TextJP = "まずは家の床を作ってみよう！", NoDistanceHide = true, TalkerPath = TALKER_PATH, TalkEndTime = 3, IsWaitInput = false },
+		{ Text = "Let's start by building the floor of your house!", TextJP = "まずは家の床を作ってみよう！", NoDistanceHide = true, TalkerPath = TALKER_PATH, TalkEndTime = 2, IsWaitInput = false },
 	},
 	FirstPurchese = {
-		{ Text = "Next, let's go to the shop and buy some furniture!", TextJP = "次にお店に行って家具を買おう！", NoDistanceHide = true, TalkerPath = TALKER_PATH, TalkEndTime = 3, IsWaitInput = false },
+		{ Text = "Next, let's go to the shop and buy some furniture!", TextJP = "次にお店に行って家具を買おう！", NoDistanceHide = true, TalkerPath = TALKER_PATH, TalkEndTime = 2, IsWaitInput = false },
 	},
 	LetsGoHome = {
-		{ Text = "Let's go back home and set it up!", TextJP = "さっそく家に帰って配置してみよう！", NoDistanceHide = true, TalkerPath = TALKER_PATH, TalkEndTime = 3, IsWaitInput = false },
+		{ Text = "Let's go back home and set it up!", TextJP = "さっそく家に帰って配置してみよう！", NoDistanceHide = true, TalkerPath = TALKER_PATH, TalkEndTime = 2, IsWaitInput = false },
 	},
 }
 return items
