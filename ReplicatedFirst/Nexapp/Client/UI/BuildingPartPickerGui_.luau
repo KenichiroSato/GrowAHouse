@@ -49,7 +49,7 @@ local function Init(self, gui : ScreenGui)
 	
 	self.doneEvent = Instance.new("BindableEvent") :: BindableEvent
 	
-	self.lastPartName = "Wall"
+	self.lastPartName = "Floor"
 	self.frame = gui:WaitForChild("Frame")
 	self.scrollingFrame = self.frame:WaitForChild("ScrollingFrame")
 	self.template = self.scrollingFrame:WaitForChild("Template")
