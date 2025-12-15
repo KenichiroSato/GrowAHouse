@@ -60,7 +60,7 @@ local function ShowMaterialList(self)
 		row.Text = item.Name
 		row.Visible = true
 		row.Parent = self.scrollingFrame
-		self.viewportFrameCreator:createViewport(row.ViewportFrame, item.Name, samples, Vector3.new(0.55, 0, 0), 120)
+		self.viewportFrameCreator:createViewport(row.ViewportFrame, item.Name, samples, nil, 90, Vector3.new(6, 0, 0))
 
 		-- クリックイベント
 		row.MouseButton1Click:Connect(function()
