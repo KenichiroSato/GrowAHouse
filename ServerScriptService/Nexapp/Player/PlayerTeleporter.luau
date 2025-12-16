@@ -1,22 +1,23 @@
 -- !strict
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local TeleportToShopEvent = ReplicatedStorage.RemoteEvent.TeleportToShopEvent
+local TeleportFunction = ReplicatedStorage.RemoteEvent.TeleportFunction :: RemoteFunction
 
 local PlayerTeleporter = {}
 
-local function TeleportToShop(player, shopName: string)
+local function TeleportToShop(player, shopName: string): boolean
 	local positionName = shopName .. "ShopSpawnPosition"
-	local position = workspace:FindFirstChild(positionName, true):: BasePart
+	local position = workspace:FindFirstChild(positionName, true) :: BasePart?
 	local character = player.Character
-	if not character then return end
+	if not character or not position then
+		return false
+	end
 
 	character:PivotTo(position.CFrame)
+	return true
 end
 
 function PlayerTeleporter.Start()
-	TeleportToShopEvent.OnServerEvent:Connect(function(player, shopName:string)
-		TeleportToShop(player, shopName)
-	end)
+	TeleportFunction.OnServerInvoke = TeleportToShop
 end
 
 return PlayerTeleporter

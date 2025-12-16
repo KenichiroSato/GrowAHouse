@@ -2,7 +2,7 @@
 -- ServerScriptService/HouseBaseManager.lua
 
 local Rep = game:GetService("ReplicatedStorage")
-local teleportToHomeEvent = Rep.RemoteEvent.TeleportToHomeEvent
+local teleportToHomeEvent = Rep.RemoteEvent.TeleportHomeFunction
 local getHouseBaseFunction = Rep.RemoteEvent.GetHouseBaseFunction
 local Players = game:GetService("Players")
 
@@ -27,13 +27,14 @@ local function init()
 end
 init()
 
-local function TeleportToHouse(player: Player)
+local function TeleportToHouse(player: Player): boolean
 	local baseModel = assignedBases[player]
 	local spawnPosition = baseModel:FindFirstChild("SpawnPosition"):: BasePart
 	local character = player.Character
-	if not character then return end
+	if not character then return false end
 	
 	character:PivotTo(spawnPosition.CFrame)
+	return true
 end
 
 --- プレイヤーに土台を割り当てる
@@ -82,7 +83,7 @@ Players.PlayerRemoving:Connect(function(player)
 	HouseBaseManager.Release(player)
 end)
 
-teleportToHomeEvent.OnServerEvent:Connect(TeleportToHouse)
+teleportToHomeEvent.OnServerInvoke = TeleportToHouse
 
 getHouseBaseFunction.OnServerInvoke = GetHouseAreaVolume
 

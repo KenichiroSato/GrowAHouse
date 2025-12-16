@@ -2,14 +2,16 @@
 
 local ReplicatedFirst = game:GetService("ReplicatedFirst")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
 local BaseGui_ = require(ReplicatedFirst.Nexsys.Client.BaseGui_)
 local Types = require(ReplicatedFirst.Nexapp.Common.Types)
 local PlayerData = require(ReplicatedFirst.Nexapp.Common.System.PlayerData)
-local teleportToHomeEvent = ReplicatedStorage.RemoteEvent.TeleportToHomeEvent
-local teleportToShopEvent = ReplicatedStorage.RemoteEvent.TeleportToShopEvent
+local TeleportFunction = ReplicatedStorage.RemoteEvent.TeleportFunction :: RemoteFunction
+local TeleportHomeFunction = ReplicatedStorage.RemoteEvent.TeleportHomeFunction :: RemoteFunction
 local PointingUIElem_ = require(ReplicatedFirst.Nexsys.Client.UI.UIElem.PointingUIElem_)
 local SystemDataModule_ = require(ReplicatedFirst.Nexsys.Client.SystemDataModule_)
 local ProgressFlagData = require(ReplicatedFirst.Nexapp.Data.ProgressFlagData)
+local CameraManager_ = nil -- lazy require when needed
 
 --- @class ShopGui_ : BaseGui_
 local WarpGui_ = {}
@@ -32,6 +34,22 @@ end
 -- private method
 --========================
 
+local function alignCameraIfSuccess(success: boolean)
+	if success then
+		if not CameraManager_ then
+			CameraManager_ = require(ReplicatedFirst.Nexsys.Client.CameraManager_)
+		end
+		CameraManager_.AlignCameraToCharacter(Players.LocalPlayer.Character)
+	end
+end
+
+local function teleportAndAlign(name: string)
+	local remoteFunc = name == "Home" and TeleportHomeFunction or TeleportFunction
+	local success = remoteFunc:InvokeServer(name)
+	alignCameraIfSuccess(success)
+	return success
+end
+
 local function Init(self, gui : ScreenGui)
 	self:WaitForLoaded(gui)
 	self:WaitForSaveDataLoaded()
@@ -39,20 +57,20 @@ local function Init(self, gui : ScreenGui)
 	
 	self.homeButtonHandler = self:SetupButtonByName("HomeButton", function()
 		isHomeButtonPlaced = true
-		teleportToHomeEvent:FireServer()
+		teleportAndAlign("Home")
 	end)
 	self.furnitureButtonHandler = self:SetupButtonByName("FurnitureButton", function()
 		isFurnitureButtonPlaced = true
-		teleportToShopEvent:FireServer("Furniture")
+		teleportAndAlign("Furniture")
 	end)
 	self.toyButtonHandler = self:SetupButtonByName("ToyButton", function()
-		teleportToShopEvent:FireServer("Toy")
+		teleportAndAlign("Toy")
 	end)
 	self.plantButtonHandler = self:SetupButtonByName("PlantButton", function()
-		teleportToShopEvent:FireServer("Plant")
+		teleportAndAlign("Plant")
 	end)
 	self.brainrotButtonHandler = self:SetupButtonByName("BrainrotButton", function()
-		teleportToShopEvent:FireServer("Brainrot")
+		teleportAndAlign("Brainrot")
 	end)
 	
 	local indicatorArrowFurniture = gui:FindFirstChild("FurnitureArrow", true) :: GuiObject
