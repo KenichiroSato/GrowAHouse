@@ -103,9 +103,10 @@ local function computeGhostCFrame(model: Model): CFrame
 		return CFrame.new(Camera.CFrame.Position) -- フォールバック
 	end
 
-	-- 前方基準点
+	-- 右前45度基準点に変更（プレイヤー正面ではなく斜め右前）
 	local yaw = getCameraYaw()
-	local forward = Vector3.new(math.cos(yaw), 0, -math.sin(yaw))
+	local angle = yaw - math.rad(45) -- 右前45度を向く角度
+	local forward = Vector3.new(math.cos(angle), 0, -math.sin(angle))
 	local aheadPos = hrp.Position + forward * FORWARD_DISTANCE + Vector3.new(0, 5, 0) -- 少し上から
 
 	-- 下向きレイで地面検出
