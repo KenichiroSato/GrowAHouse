@@ -32,7 +32,7 @@ function PointingUIElem_:PlayAnimation()
 	self.tween:Play()
 	-- 繰り返し処理 : CompletedはCancel時にも来るので注意
 	self.tween.Completed:Connect(function(playbackState : Enum.PlaybackState)
-		task.wait(1.5)
+		task.wait(0.5)
 		if self:IsActive() then
 			self:PlayAnimation()
 		end

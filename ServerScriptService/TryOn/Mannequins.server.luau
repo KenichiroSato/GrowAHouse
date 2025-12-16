@@ -31,8 +31,6 @@ type MannequinRig = Model & {
 }
 
 local function setupMannequinAsync(mannequin: Instance)
-	local rand = math.random(0.1, 1)
-	task.wait(rand)
 	local base = mannequin:FindFirstChild("Base")
 	assert(base and base:IsA("BasePart"), `{mannequin:GetFullName()} is missing a Base`)
 
@@ -104,6 +102,7 @@ local function initialize()
 
 	for _, mannequin in CollectionService:GetTagged(Constants.MANNEQUIN_TAG) do
 		setupMannequinAsync(mannequin)
+		task.wait(3)
 	end
 end
 
