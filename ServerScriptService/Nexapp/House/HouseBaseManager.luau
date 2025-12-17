@@ -102,6 +102,16 @@ function HouseBaseManager.Release(player: Player)
 		-- Base のプレイヤー情報をクリア
 		clearPlayerInfoOnBase(baseModel)
 
+		-- PrimaryPart の子要素をすべて削除（存在する場合）
+		local primary = baseModel.PrimaryPart
+		if primary then
+			for _, child in ipairs(primary:GetChildren()) do
+				pcall(function()
+					child:Destroy()
+				end)
+			end
+		end
+
 		assignedBases[player] = nil
 		table.insert(availableBases, baseModel)
 	end

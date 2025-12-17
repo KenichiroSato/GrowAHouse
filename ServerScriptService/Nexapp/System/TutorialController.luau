@@ -1,8 +1,10 @@
 --!strict
 
 local ReplicatedFirst = game:GetService("ReplicatedFirst")
+local ServerScriptService = game:GetService("ServerScriptService")
 local ProgressFlagData = require(ReplicatedFirst.Nexapp.Data.ProgressFlagData)
 local Types = require(ReplicatedFirst.Nexapp.Common.Types)
+local LogDefine = require(ServerScriptService.Nexapp.System.LogDefine)
 
 --- @class TutorialController
 local TutorialController = {}
@@ -85,10 +87,6 @@ function TutorialController:Check()
 	if CheckToShowLetsHomeTutorial(self) then
 		return
 	end
-end
-
-function TutorialController:OnFirstTalkEnd()
-	self.gamePlayer.playerData:SetProgressFlag(ProgressFlagData.Flag_FirstTalkEnd)
 end
 
 return TutorialController

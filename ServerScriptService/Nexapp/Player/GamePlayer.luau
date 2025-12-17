@@ -20,6 +20,7 @@ local StayBonus = require(ServerScriptService.Nexapp.System.StayBonus)
 local OrderedSaveDataManager = require(ServerScriptService.Nexsys.OrderedSaveDataManager)
 local CoinGenerator = require(ServerScriptService.Nexapp.Player.CoinGenerator)
 local TutorialController = require(ServerScriptService.Nexapp.System.TutorialController)
+local LogDefine = require(ServerScriptService.Nexapp.System.LogDefine)
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local SaveDataLoadedEvent = ReplicatedStorage:WaitForChild("BindableEvent"):WaitForChild("SaveDataLoadedEvent")
@@ -122,7 +123,8 @@ function GamePlayer:onSaveDataLoaded(saveDataIns)
 	SaveDataLoadedEvent:Fire(player)
 	
 	self.coinGenerator:Start()
-
+	
+	self:LogOnboardingFunnelStepEvent(LogDefine.OnboardingFunnel.PlayerLogin)
 	--StartFirstTalkCutScene(self, player)
 end
 ----------------------------------------------------------------------------------------------------
@@ -140,6 +142,15 @@ function GamePlayer:RecordPlayTime()
 	local totalPlayTime = self.playerData:GetPlayTime() + curPlayTime
 	self.playerData:SetPlayTime(totalPlayTime)
 end
+
+
+----------------------------------------------------------------------------------------------------
+function GamePlayer:OnFirstTalkEnd()
+	print("GamePlayer:OnFirstTalkEnd()")
+	self.playerData:SetProgressFlag(ProgressFlagData.Flag_FirstTalkEnd)
+	self:LogOnboardingFunnelStepEvent(LogDefine.OnboardingFunnel.FirstTalkEnd)
+end
+
 ----------------------------------------------------------------------------------------------------
 -- Update
 function GamePlayer:Update(dt)
@@ -208,6 +219,7 @@ function GamePlayer:AddBuildingPart(part: Types.BuildingPart)
 	table.insert(currentParts, part)
 	self.playerData:SetBuildingParts(currentParts)
 	self.playerData:SetProgressFlag(ProgressFlagData.Flag_FirstBuildComplete)
+	self:LogOnboardingFunnelStepEvent(LogDefine.OnboardingFunnel.FirstBuildComplete)
 end
 
 function GamePlayer:GetBuildingParts(): Types.BuildingPartArray
@@ -224,6 +236,7 @@ function GamePlayer:AddFurniture(part: Types.HousePart)
 	table.insert(currentParts, part)
 	self.playerData:SetFurnitures(currentParts)
 	self.playerData:SetProgressFlag(ProgressFlagData.Flag_FirstItemPlaceComplete)
+	self:LogOnboardingFunnelStepEvent(LogDefine.OnboardingFunnel.FirstItemPlaceComplete)
 end
 
 function GamePlayer:GetFurnitures(): Types.HousePartArray
@@ -242,6 +255,7 @@ end
 function GamePlayer:AddPurchasedItem(name:string)
 	self.playerData:SetProgressFlag(ProgressFlagData.Flag_FirstPurchaseComplete)
 	self.playerData:AddPurchasedItem(name)
+	self:LogOnboardingFunnelStepEvent(LogDefine.OnboardingFunnel.FirstPurchaseComplete)
 end
 
 function GamePlayer:RemovePurchasedItem(name: string)
