@@ -37,6 +37,38 @@ local function TeleportToHouse(player: Player): boolean
 	return true
 end
 
+local function setPlayerInfoOnBase(baseModel: Model, player: Player)
+	local imageLabel = baseModel:FindFirstChild("playerImage", true)
+	local nameLabel = baseModel:FindFirstChild("playerName", true)
+
+	if imageLabel and imageLabel:IsA("ImageLabel") then
+		local ok, thumb = pcall(function()
+			return Players:GetUserThumbnailAsync(player.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size100x100)
+		end)
+		if ok and thumb then
+			imageLabel.Image = thumb
+		else
+			warn(("Failed to get thumbnail for %s"):format(player.Name))
+		end
+	end
+
+	if nameLabel and nameLabel:IsA("TextLabel") then
+		nameLabel.Text = player.Name
+	end
+end
+
+local function clearPlayerInfoOnBase(baseModel: Model)
+	local imageLabel = baseModel:FindFirstChild("playerImage", true)
+	local nameLabel = baseModel:FindFirstChild("playerName", true)
+
+	if imageLabel and imageLabel:IsA("ImageLabel") then
+		imageLabel.Image = ""
+	end
+	if nameLabel and nameLabel:IsA("TextLabel") then
+		nameLabel.Text = ""
+	end
+end
+
 --- プレイヤーに土台を割り当てる
 -- @return BasePart 割り当てられた土台のBasePart
 function HouseBaseManager.Assign(player: Player): Model?
@@ -51,7 +83,11 @@ function HouseBaseManager.Assign(player: Player): Model?
 		return nil
 	end
 	assignedBases[player] = baseModel
-	
+
+	-- Base にプレイヤー情報を設定
+	setPlayerInfoOnBase(baseModel, player)
+
+
 	TeleportToHouse(player)
 	player.CharacterAdded:Connect(function(character)
 		TeleportToHouse(player)
@@ -63,6 +99,9 @@ end
 function HouseBaseManager.Release(player: Player)
 	local baseModel = assignedBases[player]
 	if baseModel then
+		-- Base のプレイヤー情報をクリア
+		clearPlayerInfoOnBase(baseModel)
+
 		assignedBases[player] = nil
 		table.insert(availableBases, baseModel)
 	end
