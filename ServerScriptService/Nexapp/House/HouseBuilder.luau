@@ -45,7 +45,8 @@ local function setParams(player: Player, buildItem: Instance)
 			end
 		end
 	end
-	buildItem.Parent = workspace
+
+	buildItem.Parent = HouseBaseManager.GetBase(player)
 	buildItem:SetAttribute(STR.OwnerUserId, player.UserId)
 	CollectionService:AddTag(buildItem, STR.TAG_Deletable)
 	CollectionService:AddTag(buildItem, STR.TAG_Building)

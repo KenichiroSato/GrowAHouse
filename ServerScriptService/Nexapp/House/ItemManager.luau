@@ -20,6 +20,7 @@ local ServerScriptService = game:GetService("ServerScriptService")
 local LocalCordinateHelper = require(ServerScriptService:WaitForChild("Nexapp"):WaitForChild("House"):WaitForChild("LocalCordinateHelper"))
 local PlayerManager = require(ServerScriptService:WaitForChild("Nexapp"):WaitForChild("Player"):WaitForChild("PlayerManager"))
 local PlacementValidator = require(ServerScriptService.Nexapp.House.PlacementValidator)
+local HouseBaseManager = require(ServerScriptService.Nexapp.House.HouseBaseManager)
 
 --========================
 -- private method
@@ -57,7 +58,7 @@ local function SpawnItem(player: Player, modelName: string, pivotCFrame: CFrame)
 
 	-- 配置
 	local placed = template:Clone()
-	placed.Parent = Workspace
+	placed.Parent = HouseBaseManager.GetBase(player)
 	placed:PivotTo(pivotCFrame)
 	normalizePlacedModel(placed)
 
