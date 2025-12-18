@@ -4,6 +4,7 @@
 local ReplicatedFirst = game:GetService("ReplicatedFirst")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Types = require(ReplicatedFirst.Nexapp.Common.Types)
+local SystemDefine = require(ReplicatedFirst.Nexsys.Common.SystemDefine)
 
 local ServerScriptService = game:GetService("ServerScriptService")
 local ServerStorage = game:GetService("ServerStorage")
@@ -24,7 +25,7 @@ local DEFAULT_PROMPT = {
 	MaxActivationDistance = 12,
 	RequiresLineOfSight = false,
 	Enabled = true,
-	HoldDuration = 0,
+	HoldDuration = 0.5,
 	Exclusivity = Enum.ProximityPromptExclusivity.OnePerButton,
 	GamepadKeyCode = Enum.KeyCode.ButtonX,
 	KeyboardKeyCode = Enum.KeyCode.E,
@@ -130,6 +131,7 @@ function ShopItemServer._ensurePrompt(model: Model)
 			local purchased = TryPurchase(gamePlayer, GetPrice(model))
 			if purchased then
 				gamePlayer:AddPurchasedItem(model.Name)
+				ServerRemoteSender.SendEvent(player, SystemDefine.CommonClientEvent.PlaySEByName, "Purchase")
 				print(player.Name .. "が" .. model.Name .. "を購入")
 			else
 				ServerRemoteSender.SendAnnounce(player, "NotEnoughMoney")
