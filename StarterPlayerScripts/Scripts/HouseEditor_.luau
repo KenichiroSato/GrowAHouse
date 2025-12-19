@@ -43,15 +43,19 @@ local function fireRayFromScreen(x, y)
 end
 
 local function updateTarget(deletePosition: Vector2)
-	if not camera then return end
-	local ray: Ray
+	local cam = workspace.CurrentCamera
+	if not cam then return end
+	local ray: Ray? = nil
 	if UserInputService.GamepadEnabled then
-		ray = camera:ScreenPointToRay(deletePosition.x, deletePosition.y)
+		-- deletePosition is expected in screen pixels (X, Y)
+		ray = cam:ScreenPointToRay(deletePosition.X, deletePosition.Y)
 	elseif UserInputService.MouseEnabled then
-		screenPos = UserInputService:GetMouseLocation()
-		ray = camera:ViewportPointToRay(screenPos.x, screenPos.y)
+		local mousePos = UserInputService:GetMouseLocation()
+		-- Use pixel coordinates with ScreenPointToRay (ViewportPointToRay expects 0..1)
+		ray = cam:ScreenPointToRay(mousePos.X, mousePos.Y)
 	end
-	local target = ScreenRayExecutor.FindPlayerOwnedInstance(player, ray, camera)
+	if not ray then return end
+	local target = ScreenRayExecutor.FindPlayerOwnedInstance(player, ray, cam)
 	if target then
 		if target ~= lastTarget then
 			selectionBox.Adornee = target
