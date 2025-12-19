@@ -82,6 +82,9 @@ function DebugCommand.Process(player: Player, message: string, _recipient)
 			else
 				gp.playerData:ResetProgressFlag(flagName)
 			end
+		elseif command == "ac" then
+			local amount = tonumber(args[3])
+			gp:AddCoin(amount)
 		end
 		
 		-- システム系

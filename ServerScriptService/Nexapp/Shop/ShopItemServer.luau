@@ -12,6 +12,7 @@ local priceTemplateBillboard = ServerStorage.PriceTemplateBillboardGui
 local PlayerManager: Types.PlayerManager = require(ServerScriptService.Nexapp.Player.PlayerManager)
 local PriceProvider = require(ReplicatedStorage.Script.PriceProvider)
 local ServerRemoteSender = require(ServerScriptService.Nexsys.ServerRemoteSender)
+local TextUtil = require(ReplicatedFirst.Nexsys.Common.Utility.TextUtil)
 
 local ShopItemServer = {}
 local SHOP_ROOT: Instance = workspace:WaitForChild("Shops")
@@ -93,7 +94,7 @@ local function ensureBillboard(model: Model, adornee: BasePart?)
 	local nameLabel = billboard:FindFirstChild("NameLabel", true)
 	nameLabel.Text = model.Name
 	local priceLabel = billboard:FindFirstChild("PriceLabel", true)
-	priceLabel.Text = "$" .. tostring(GetPrice(model))
+	priceLabel.Text = "$" .. TextUtil.FormatNumberWithUnit(GetPrice(model))--tostring(GetPrice(model))
 	local rateLabel = billboard:FindFirstChild("RateLabel", true)
 	rateLabel.Text = "$"..tostring(GetMoneyRate(model)).. "/s"
 
@@ -101,7 +102,7 @@ local function ensureBillboard(model: Model, adornee: BasePart?)
 end
 
 local function TryPurchase(gamePlayer: Types.GamePlayer, price: number): boolean
-	local coins = gamePlayer:GetCoin()
+	local coins = gamePlayer:GetCoin() or 0
 	if coins >= price then
 		gamePlayer:SubCoin(price)
 		return true

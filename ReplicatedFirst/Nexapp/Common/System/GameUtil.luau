@@ -15,7 +15,7 @@ local tamaCharaTypeMaxCountCache_ = nil
 -- GetCoinText
 function GameUtil.GetCoinText(coin : number) : string
 	-- 3桁カンマ区切りなどもいれる
-	return TextUtil.FormatNumberWithCommas(coin)
+	return TextUtil.FormatNumberWithUnit(coin)
 end
 ----------------------------------------------------------------------------------------------------
 

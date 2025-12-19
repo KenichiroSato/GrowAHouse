@@ -39,6 +39,7 @@ function SystemRemoteEventHandler_.onCommonEvent(eventType, ...)
 	elseif eventType == SystemDefine.CommonClientEvent.AnnounceTalk then
 		UIManager_.AnnounceTalk(...)
 	elseif eventType == "RSC_Announce" then
+		SoundManager_.PlaySEByName("Beep")
 		local gui = AnnounceGui_.GetInstance()
 		if gui then
 			gui:ShowAnnounce(...)

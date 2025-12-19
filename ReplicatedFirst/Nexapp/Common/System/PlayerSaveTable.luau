@@ -50,7 +50,7 @@ data.Template = {
 	[data.Keys.StayBonusClaimedList] = {
 		-- [Level] = true,
 	},
-	[data.Keys.Coin] = 100,
+	[data.Keys.Coin] = 500,
 	[data.Keys.ProgressFlags] = {
 		-- [FlagKey] = true,
 	},
