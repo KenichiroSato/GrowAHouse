@@ -79,8 +79,13 @@ local function ensureBillboard(model: Model, adornee: BasePart?)
 	billboard.Name = BILLBOARD_NAME
 	billboard.Adornee = adornee
 	--billboard.Size = UDim2.new(6, 0, 2, 0)
-	billboard.StudsOffset = Vector3.new(0, model:GetExtentsSize().Y/2 + 2, 0) -- パーツの上にオフセット
-	billboard.AlwaysOnTop = false
+	local MAX_OFFSET = 4
+	local offSetY = model:GetExtentsSize().Y/2 + 2
+	if offSetY > MAX_OFFSET then
+		offSetY = MAX_OFFSET
+	end
+	billboard.StudsOffset = Vector3.new(0, offSetY, 0) -- パーツの上にオフセット
+	billboard.AlwaysOnTop = true
 	billboard.LightInfluence = 0
 	billboard.MaxDistance = 30
 	billboard.Parent = model

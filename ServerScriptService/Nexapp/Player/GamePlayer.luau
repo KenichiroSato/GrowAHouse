@@ -135,6 +135,13 @@ function GamePlayer:OnPlayerDied(player: Player)
 		self:SpawnCharacterAsync()
 	end
 end
+
+function GamePlayer:OnPlayerEnteredWelcomeMessagePosition(player: Player)
+	print("OnPlayerEnteredWelcomeMessagePosition")
+	if not self.playerData:IsProgressFlag(ProgressFlagData.Flag_FirstTalkEnd) then
+		self:SendRemoteEvent("Event_FirstTalk")
+	end
+end
 ----------------------------------------------------------------------------------------------------
 -- RecordPlayTime
 function GamePlayer:RecordPlayTime()

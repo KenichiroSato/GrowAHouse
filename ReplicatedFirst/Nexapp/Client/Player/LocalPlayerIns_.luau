@@ -10,6 +10,11 @@ local SystemDataModule_ = require(ReplicatedFirst.Nexsys.Client.SystemDataModule
 local Define = require(ReplicatedFirst.Nexapp.Common.Define)
 local RemoteSender_ = require(ReplicatedFirst.Nexsys.Client.RemoteSender_)
 local ComponentManager = require(ReplicatedFirst.Nexapp.Common.System.ComponentManager)
+local ProgressFlagData = require(ReplicatedFirst.Nexapp.Data.ProgressFlagData)
+local getHouseBaseFunction = ReplicatedStorage:WaitForChild("RemoteEvent"):WaitForChild("GetHouseBaseFunction")
+local zoneplus = require(ReplicatedStorage.Packages.zoneplus)
+local BeamManager_ = require(ReplicatedFirst.Nexsys.Client.Beam.IndicatorBeamManager_)
+local RemoteSender_ = require(ReplicatedFirst.Nexsys.Client.RemoteSender_)
 
 --- @class LocalPlayerIns_ : LocalBasePlayerIns_
 local LocalPlayerIns_ = {}
@@ -28,6 +33,26 @@ end
 function LocalPlayerIns_:Init(player : Player)
 end
 ----------------------------------------------------------------------------------------------------
+local function ShowWelcomePositionIndicatorIfNeed()
+	SystemDataModule_.WaitUntilPreloadEnded()
+	SystemDataModule_.WaitUntilSaveDataLoaded()
+	if not PlayerData:IsProgressFlag(ProgressFlagData.Flag_FirstTalkEnd) then
+		local houseBase = getHouseBaseFunction:InvokeServer("HouseAreaHideBeam")
+		local manager = BeamManager_.new()
+		local attachment = houseBase:WaitForChild("Attachment")
+
+		local beam = manager:CreateBeam(attachment)
+		beam:SetBeamColor(Color3.fromRGB(99, 21, 255))
+
+		local zone = zoneplus.new(houseBase)
+		zone.localPlayerEntered:Connect(function(player)
+			print("sato TutorialBeamDisplay_.Hide")
+			manager:DestroyBeam(beam)
+			RemoteSender_.SendEvent("OnPlayerEnteredWelcomeMessagePosition")
+		end)
+	end
+end
+----------------------------------------------------------------------------------------------------
 -- Start
 function LocalPlayerIns_:Start()
 	-- 物理処理前に実行したいもの
@@ -39,7 +64,8 @@ function LocalPlayerIns_:Start()
 	RunService.Heartbeat:Connect(function(dt)
 		self:OnHeartbeat(dt)
 	end)
-
+	
+	task.spawn(ShowWelcomePositionIndicatorIfNeed)
 end
 ----------------------------------------------------------------------------------------------------
 -- OnCharacterAdded

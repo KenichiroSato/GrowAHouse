@@ -17,21 +17,6 @@ function TutorialController.new(gamePlayer: Types.GamePlayer)
 	return self
 end
 
-local function CheckToShowInitialTutorial(self): boolean
-	if self.isInitialTutorialChecked then
-		return false
-	end
-	if self.gamePlayer.isClientGameStarted and self.gamePlayer.playerData:IsSaveDataLoaded() then
-		self.isInitialTutorialChecked = true
-		if self.gamePlayer.playerData:IsProgressFlag(ProgressFlagData.Flag_FirstTalkEnd) then
-			return false
-		end
-		self.gamePlayer:SendRemoteEvent("Event_FirstTalk")
-		return true
-	end
-	return false
-end
-
 local function CheckToShowPurchaseTutorial(self): boolean
 	if self.isPurchaseTutorialChecked then
 		return false
@@ -78,9 +63,7 @@ end
 
 
 function TutorialController:Check()
-	if CheckToShowInitialTutorial(self) then
-		return
-	end
+	-- FisrtTalkはGamePlayerで閉じて表示する
 	if CheckToShowPurchaseTutorial(self) then
 		return
 	end

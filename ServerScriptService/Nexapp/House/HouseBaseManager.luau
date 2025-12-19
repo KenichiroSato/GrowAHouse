@@ -122,8 +122,8 @@ function HouseBaseManager.GetBase(player: Player): BasePart
 	return assignedBases[player].PrimaryPart :: BasePart
 end
 
-local function GetHouseAreaVolume(player: Player): BasePart
-	local part = assignedBases[player]:WaitForChild("HouseAreaVolume") :: BasePart
+local function GetHouseAreaVolume(player: Player, name:string): BasePart
+	local part = assignedBases[player]:WaitForChild(name) :: BasePart
 	return part
 end
 

@@ -77,7 +77,7 @@ local function Init(self, gui : ScreenGui)
 		OnEditButtonPressed(self)
 	end)
 	
-	local houseBase = getHouseBaseFunction:InvokeServer(game.Players.LocalPlayer)
+	local houseBase = getHouseBaseFunction:InvokeServer("HouseAreaVolume")
 	self.zone = zoneplus.new(houseBase)
 	self.zone.localPlayerEntered:Connect(function(player)
 		isInHouse = true

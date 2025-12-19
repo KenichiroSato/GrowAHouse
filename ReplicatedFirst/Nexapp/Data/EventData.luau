@@ -14,10 +14,10 @@ return {
 	},
 	Event_FirstTalk = {
 		{ EventInstType.DisableProximityPrompt },
-		{ EventInstType.LockPlayer },
 		{ EventInstType.HideScreenGUI},
 		{ EventInstType.TalkSequence, "FirstTalkWelcome" },
 		{ EventInstType.FadeOut, CAMERA_FADE_DURATION},
+		{ EventInstType.LockPlayer },
 		{ EventInstType.CameraMoveTo, "TalkStartCameraPos", 0 },
 		{ EventInstType.Wait, CAMERA_FADE_DURATION },
 		{ EventInstType.FadeIn, CAMERA_FADE_DURATION},
