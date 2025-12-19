@@ -41,12 +41,12 @@ local function isOwnedByPlayer(root: Instance, player: Player): boolean
 	return false
 end
 
-function ScreenRayExecutor.FindPlayerOwnedInstance(player: Player, ray: Ray): Instance?
+function ScreenRayExecutor.FindPlayerOwnedInstance(player: Player, ray: Ray, excludes: {}): Instance?
 	local origin = ray.Origin--camera.CFrame.Position
 	local direction = ray.Direction * 500 --camera.CFrame.LookVector * 100
 
 	local params = RaycastParams.new()
-	params.FilterDescendantsInstances = {player.Character}
+	params.FilterDescendantsInstances = excludes
 	params.FilterType = Enum.RaycastFilterType.Exclude
 
 	local result = workspace:Raycast(origin, direction, params)

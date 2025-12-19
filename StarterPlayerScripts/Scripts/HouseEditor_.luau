@@ -12,6 +12,7 @@ local ScreenRayExecutor = require(ReplicatedStorage:WaitForChild("Script"):WaitF
 local player = Players.LocalPlayer
 local camera = workspace.CurrentCamera
 local deleteRequestEvent = ReplicatedStorage:WaitForChild("RemoteEvent"):WaitForChild("HouseDeleteEvent")
+local getHouseBaseFunction = ReplicatedStorage:WaitForChild("RemoteEvent"):WaitForChild("GetHouseBaseFunction")
 
 local lastFire = 0
 local COOLDOWN = 0.05
@@ -55,7 +56,10 @@ local function updateTarget(deletePosition: Vector2)
 		ray = cam:ScreenPointToRay(mousePos.X, mousePos.Y)
 	end
 	if not ray then return end
-	local target = ScreenRayExecutor.FindPlayerOwnedInstance(player, ray, cam)
+	local houseAreaHideBeam = getHouseBaseFunction:InvokeServer("HouseAreaHideBeam")
+	local houseAreaVolume = getHouseBaseFunction:InvokeServer("HouseAreaVolume")
+	local excludes = {player.Character, houseAreaVolume, houseAreaHideBeam}
+	local target = ScreenRayExecutor.FindPlayerOwnedInstance(player, ray, excludes)
 	if target then
 		if target ~= lastTarget then
 			selectionBox.Adornee = target

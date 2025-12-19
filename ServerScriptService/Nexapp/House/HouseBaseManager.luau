@@ -122,7 +122,7 @@ function HouseBaseManager.GetBase(player: Player): BasePart
 	return assignedBases[player].PrimaryPart :: BasePart
 end
 
-local function GetHouseAreaVolume(player: Player, name:string): BasePart
+function HouseBaseManager.GetHouseAreaVolume(player: Player, name:string): BasePart
 	local part = assignedBases[player]:WaitForChild(name) :: BasePart
 	return part
 end
@@ -134,6 +134,6 @@ end)
 
 teleportToHomeEvent.OnServerInvoke = TeleportToHouse
 
-getHouseBaseFunction.OnServerInvoke = GetHouseAreaVolume
+getHouseBaseFunction.OnServerInvoke = HouseBaseManager.GetHouseAreaVolume
 
 return HouseBaseManager

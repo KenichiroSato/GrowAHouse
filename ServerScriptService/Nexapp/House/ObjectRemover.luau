@@ -13,6 +13,7 @@ local STR = require(ReplicatedStorage:WaitForChild("Script"):WaitForChild("Strin
 local ScreenRayExecutor = require(ReplicatedStorage:WaitForChild("Script"):WaitForChild("ScreenRayExecutor"))
 
 local ServerScriptService = game:GetService("ServerScriptService")
+local HouseBaseManager = require(ServerScriptService.Nexapp.House.HouseBaseManager)
 local PlayerManager: Types.PlayerManager = require(ServerScriptService:WaitForChild("Nexapp"):WaitForChild("Player"):WaitForChild("PlayerManager"))
 
 
@@ -22,7 +23,11 @@ ObjectRemover.__index = ObjectRemover
 
 function ObjectRemover.bindEvents()
 	deleteEvent.OnServerEvent:Connect(function(player, ray: Ray, isMove: boolean)
-		local deletable = ScreenRayExecutor.FindPlayerOwnedInstance(player, ray)
+		local houseAreaHideBeam = HouseBaseManager.GetHouseAreaVolume(player, "HouseAreaHideBeam")
+		local houseAreaVolume = HouseBaseManager.GetHouseAreaVolume(player, "HouseAreaVolume")
+		local excludes = {player.Character, houseAreaVolume, houseAreaHideBeam}
+		
+		local deletable = ScreenRayExecutor.FindPlayerOwnedInstance(player, ray, excludes)
 		if not deletable then return end
 		
 		local gamePlayer = PlayerManager.GetGamePlayer(player)
