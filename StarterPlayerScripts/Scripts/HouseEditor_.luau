@@ -53,7 +53,7 @@ local function updateTarget(deletePosition: Vector2)
 	elseif UserInputService.MouseEnabled then
 		local mousePos = UserInputService:GetMouseLocation()
 		-- Use pixel coordinates with ScreenPointToRay (ViewportPointToRay expects 0..1)
-		ray = cam:ScreenPointToRay(mousePos.X, mousePos.Y)
+		ray = cam:ViewportPointToRay(mousePos.X, mousePos.Y)
 	end
 	if not ray then return end
 	local houseAreaHideBeam = getHouseBaseFunction:InvokeServer("HouseAreaHideBeam")
