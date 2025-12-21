@@ -83,6 +83,12 @@ function ViewportFrameCreator_:createViewport(viewport: ViewportFrame, modelName
 		return
 	end
 
+	-- target must be Model or BasePart
+	if not (target:IsA("Model") or target:IsA("BasePart")) then
+		warn("Target is not a Model or BasePart: " .. modelName)
+		return
+	end
+
 	-- クローンして ViewportFrame 配下へ
 	local clone = target:Clone() :: Model
 	clone.Parent = viewport

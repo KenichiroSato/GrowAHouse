@@ -44,6 +44,7 @@ local function fireRayFromScreen(x, y)
 end
 
 local function updateTarget(deletePosition: Vector2)
+	if connection == nil then return end
 	local cam = workspace.CurrentCamera
 	if not cam then return end
 	local ray: Ray? = nil
@@ -61,9 +62,10 @@ local function updateTarget(deletePosition: Vector2)
 	local excludes = {player.Character, houseAreaVolume, houseAreaHideBeam}
 	local target = ScreenRayExecutor.FindPlayerOwnedInstance(player, ray, excludes)
 	if target then
-		if target ~= lastTarget then
+		if target ~= lastTarget and connection ~= nil then
 			selectionBox.Adornee = target
 			selectionBox.Visible = true
+			print("saot selectionBox.Visible = true")
 			lastTarget = target
 		end
 	else
@@ -107,12 +109,12 @@ end
 
 function HouseEditor_.StopEditMode() 
 	singleTapDetector:Stop()
-	selectionBox.Visible = false
 	lastTarget = nil
 	if connection then
 		connection:Disconnect()
 		connection = nil
 	end
+	selectionBox.Visible = false
 end
 
 return HouseEditor_

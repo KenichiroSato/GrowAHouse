@@ -53,7 +53,7 @@ end
 
 
 local function ShowMaterialList(self)
-	local samples = workspace:WaitForChild("MaterialSamples")
+	local samples = ReplicatedStorage:WaitForChild("MaterialSamples")
 	for i, item in samples:GetDescendants() do
 		local row = self.template:Clone()
 		row.Name = "Item_" .. i

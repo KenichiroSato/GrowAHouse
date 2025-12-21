@@ -17,9 +17,9 @@ function PriceProvider.GetMoneyRate(model: Model): number
 	elseif 5000 <= price  and price < 10000 then
 		rate = rate * 0.6
 	elseif  10000 <= price  and price < 100000 then
-		rate = rate * 0.4
+		rate = rate * 0.3
 	elseif 100000 < price then
-		rate = rate * 0.2			
+		rate = rate * 0.1			
 	end
 	
 	local rateAtt = model:GetAttribute("rate")

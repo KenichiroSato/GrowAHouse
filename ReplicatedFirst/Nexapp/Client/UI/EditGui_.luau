@@ -21,7 +21,7 @@ end
 local SELECTED_THICKNESS = 0.1
 local UNSELECTED_THICKNESS = 0
 local SELECTED_TRANSPARENCY = 0
-local UNSELECTED_TRANSPARENCY = 0.3
+local UNSELECTED_TRANSPARENCY = 0.1
 
 --========================
 -- private method
@@ -50,7 +50,8 @@ local function Init(self, gui : ScreenGui)
 	self:SetExcludeShow(true)
 	
 	self.crossHair = gui:WaitForChild("CrossHair") :: ImageLabel
-	local menuFrame = gui:WaitForChild("MenuFrame") :: Frame
+	local frame = gui:WaitForChild("Frame")
+	local menuFrame = frame:WaitForChild("MenuFrame") :: Frame
 	self.moveButton = menuFrame:WaitForChild("MoveButton")
 	self.moveButtonStroke = self.moveButton:WaitForChild("UIStroke") :: UIStroke
 	self.putAwayButton = menuFrame:WaitForChild("PutAwayButton")
@@ -61,6 +62,10 @@ local function Init(self, gui : ScreenGui)
 	end)
 	self.putAwayButtonHandler = self:SetupButtonByName("PutAwayButton", function()
 		OnPutAwayButtonPressed(self)
+	end)
+	self.cancelButtonHandler = self:SetupButtonByName("CloseButton", function()
+		self:SetShowHide(false)
+		houseEditor.StopEditMode()
 	end)
 	OnMoveButtonPressed(self)
 end
