@@ -9,6 +9,7 @@ local ReplicatedFirst = game:GetService("ReplicatedFirst")
 local SysTypes = require(ReplicatedFirst.Nexsys.Common.Types)
 local SingleTapDetector_: SysTypes.SingleTapDetector_ = require(ReplicatedFirst.Nexsys.Client.SingleTapDetector_)
 local ScreenRayExecutor = require(ReplicatedStorage:WaitForChild("Script"):WaitForChild("ScreenRayExecutor"))
+local STR = require(ReplicatedStorage.Script.Strings)
 local player = Players.LocalPlayer
 local camera = workspace.CurrentCamera
 local deleteRequestEvent = ReplicatedStorage:WaitForChild("RemoteEvent"):WaitForChild("HouseDeleteEvent")
@@ -63,10 +64,20 @@ local function updateTarget(deletePosition: Vector2)
 	local target = ScreenRayExecutor.FindPlayerOwnedInstance(player, ray, excludes)
 	if target then
 		if target ~= lastTarget and connection ~= nil then
-			selectionBox.Adornee = target
-			selectionBox.Visible = true
-			print("saot selectionBox.Visible = true")
-			lastTarget = target
+			-- When in move mode, only allow selecting furniture-tagged targets
+			local canSelect = true
+			if isMoveMode then
+				canSelect = target:HasTag(STR.TAG_Furniture) and true or false
+			end
+			if canSelect then
+				selectionBox.Adornee = target
+				selectionBox.Visible = true
+				print("saot selectionBox.Visible = true")
+				lastTarget = target
+			else
+				selectionBox.Visible = false
+				lastTarget = nil
+			end
 		end
 	else
 		selectionBox.Visible = false

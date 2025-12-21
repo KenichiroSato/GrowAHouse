@@ -34,7 +34,10 @@ function ObjectRemover.bindEvents()
 		if not gamePlayer then return end
 		--家具か建築素材かは分からないので、両方Remove呼ぶ
 		if deletable:HasTag(STR.TAG_Building) then
-			gamePlayer:RemoveBuildingPart(deletable:GetAttribute(STR.InstanceId))
+			if not isMove then --Moveの時は何もしない
+				gamePlayer:RemoveBuildingPart(deletable:GetAttribute(STR.InstanceId))
+				deletable:Destroy()
+			end
 		elseif deletable:HasTag(STR.TAG_Furniture) then
 			--家具の場合はアイテムリストに戻す
 			gamePlayer:AddPurchasedItem(deletable.Name)
@@ -42,8 +45,8 @@ function ObjectRemover.bindEvents()
 			if isMove then
 				ItemMoveEvent:FireClient(player, deletable.Name)
 			end
+			deletable:Destroy()
 		end
-		deletable:Destroy()
 	end)
 end
 
